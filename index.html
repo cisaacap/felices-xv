@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <title>Feliz XV Años Mi Poshito Bello (Te extraño we :C)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            turquoise: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              300: '#5eead4',
+              500: '#14b8a6',
+              600: '#00a896',
+              700: '#028090',
+              800: '#05668d',
+              900: '#0b4f6c'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            script: ['Great Vibes', 'cursive'],
+            display: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Quadruple Border Frame Styling (NO Gradients) */
+    .quadruple-border-box {
+      border: 2px solid #00a896;
+      padding: 4px;
+      background-color: #ffffff;
+      box-shadow: 0 10px 25px -5px rgba(0, 168, 150, 0.15);
+    }
+
+    .quadruple-border-inner-1 {
+      border: 1px solid #028090;
+      padding: 4px;
+    }
+
+    .quadruple-border-inner-2 {
+      border: 2px solid #00a896;
+      padding: 4px;
+    }
+
+    .quadruple-border-content {
+      border: 1px solid #05668d;
+      background-color: #ffffff;
+    }
+
+    /* Modal Backdrop Blur */
+    .modal-backdrop {
+      background-color: rgba(5, 102, 141, 0.4);
+      backdrop-filter: blur(4px);
+    }
+
+    /* Tulip Opening Animation Classes */
+    .bouquet-wrapper {
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: bottom center;
+    }
+
+    .bouquet-open .wrap-left {
+      transform: rotate(-38deg) translateX(-45px) translateY(15px);
+      opacity: 0.85;
+    }
+
+    .bouquet-open .wrap-right {
+      transform: rotate(38deg) translateX(45px) translateY(15px);
+      opacity: 0.85;
+    }
+
+    .wrap-left,
+    .wrap-right {
+      transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+      transform-origin: bottom center;
+    }
+
+    .tulip-flower {
+      transition: transform 0.4s ease, filter 0.3s ease;
+      cursor: pointer;
+      white-space: pre-line;
+      /* Preserve line breaks in text */
+    }
+
+    .tulip-flower:hover {
+      transform: scale(1.12) translateY(-8px);
+      filter: drop-shadow(0 8px 12px rgba(0, 168, 150, 0.3));
+    }
+
+    /* Custom range input */
+    input[type=range] {
+      accent-color: #00a896;
+    }
+
+    /* Animación de crecimiento del ramo al abrir el modal */
+    @keyframes growUp {
+      0% {
+        transform: scaleY(0) scaleX(0.2) translateY(50px);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scaleY(1.05) scaleX(1) translateY(-5px);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes bloomIn {
+      0% {
+        transform: scale(0) translateY(20px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Clases aplicadas a los elementos SVG cuando el modal está abierto */
+    #flowersModal:not(.hidden) .grow-stem {
+      animation: growUp 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      transform-origin: bottom center;
+    }
+
+    #flowersModal:not(.hidden) .bloom-item {
+      animation: bloomIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      transform-origin: center bottom;
+      opacity: 0;
+    }
+
+    /* Retardos escalonados para que se vayan creando secuencialmente */
+    .delay-1 {
+      animation-delay: 0.1s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.25s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-4 {
+      animation-delay: 0.55s;
+    }
+
+    .delay-5 {
+      animation-delay: 0.7s;
+    }
+
+    .delay-6 {
+      animation-delay: 0.85s;
+    }
+  </style>
+</head>
+
+<body class="bg-turquoise-50/50 text-slate-800 min-h-screen">
+
+  <div
+    class="bg-turquoise-50/50 text-slate-800 min-h-screen flex flex-col justify-between font-sans selection:bg-turquoise-100 selection:text-turquoise-800">
+
+    <!-- Header Section with Strictly Single H1 -->
+    <header class="w-full py-8 text-center px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="quadruple-border-box rounded-lg inline-block w-full max-w-2xl">
+          <div class="quadruple-border-inner-1 rounded">
+            <div class="quadruple-border-inner-2 rounded">
+              <div class="quadruple-border-content py-6 px-4 rounded">
+                <!-- Strictly ONLY ONE <h1> tag -->
+                <h1
+                  class="text-3xl md:text-5xl lg:text-6xl font-serif tracking-wide text-slate-800 uppercase font-semibold">
+                  Feliz <span
+                    class="font-script text-5xl md:text-7xl lg:text-8xl text-turquoise-600 normal-case px-2 font-normal inline-block transform translate-y-1">XV</span>
+                  Años
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow flex flex-col items-center justify-center px-4 py-4 w-full max-w-4xl mx-auto">
+
+      <!-- Music Player Section -->
+      <section class="w-full max-w-lg mb-8">
+        <div class="text-center mb-3">
+          <span
+            class="text-xs font-semibold uppercase tracking-widest text-turquoise-800 bg-white px-3 py-1 border border-turquoise-600 rounded-full shadow-sm">
+            (Vuelve mañana para escuchar otra canción y otra frase)
+          </span>
+          <p class="text-xl md:text-2xl font-serif text-turquoise-800 font-medium mt-2">
+            Canción del Día:
+          </p>
+        </div>
+
+        <!-- Music Player Card with Quadruple Border -->
+        <div class="quadruple-border-box rounded-xl">
+          <div class="quadruple-border-inner-1 rounded-lg">
+            <div class="quadruple-border-inner-2 rounded-lg">
+              <div class="quadruple-border-content p-5 md:p-6 rounded-lg flex flex-col items-center">
+
+                <!-- Album Cover & Directory Notice -->
+                <div
+                  class="relative w-40 h-40 md:w-48 md:h-48 mb-4 border-2 border-turquoise-600 p-1 bg-turquoise-50 rounded-lg shadow-inner">
+                  <img id="albumCover" src="src/assets/song-cover.jpg"
+                    onerror="this.onerror=null; this.src='https://placehold.co/400x400/00a896/ffffff?text=Portada+de+Cancion';"
+                    alt="Portada de la Canción" class="w-full h-full object-cover rounded border border-turquoise-700">
+                </div>
+
+                <!-- Song Details -->
+                <div class="text-center w-full mb-4">
+                  <h2 class="text-lg md:text-xl font-bold text-slate-800 truncate">
+                    Tu Boda
+                  </h2>
+                  <p class="text-sm text-turquoise-700 font-medium">
+                    Oscar Maydon ft. Fuerza Regida
+                  </p>
+                </div>
+
+                <!-- Progress Bar & Timers -->
+                <div class="w-full mb-4">
+                  <input id="seekBar" type="range" value="0" min="0" max="100"
+                    class="w-full h-1.5 bg-turquoise-100 rounded-lg appearance-none cursor-pointer">
+                  <div class="flex justify-between text-xs text-slate-500 font-mono mt-1">
+                    <span id="currentTimeText">0:00</span>
+                    <span id="totalDurationText">3:45</span>
+                  </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="flex items-center justify-center space-x-4 md:space-x-6 w-full">
+                  <!-- Rewind 10s -->
+                  <button id="btnRewind" title="Retroceder 10 segundos"
+                    class="p-3 border-2 border-turquoise-600 rounded-full hover:bg-turquoise-50 text-turquoise-700 active:scale-95 transition">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                  </button>
+
+                  <!-- Play / Pause -->
+                  <button id="btnPlayPause" title="Reproducir / Pausar"
+                    class="p-4 border-2 border-turquoise-700 bg-turquoise-600 text-white rounded-full hover:bg-turquoise-700 active:scale-95 shadow-md transition">
+                    <i id="playPauseIcon" data-lucide="play" class="w-7 h-7 fill-current"></i>
+                  </button>
+
+                  <!-- Forward 10s -->
+                  <button id="btnForward" title="Adelantar 10 segundos"
+                    class="p-3 border-2 border-turquoise-600 rounded-full hover:bg-turquoise-50 text-turquoise-700 active:scale-95 transition">
+                    <i data-lucide="rotate-cw" class="w-5 h-5"></i>
+                  </button>
+                </div>
+
+                <!-- Hidden HTML5 Audio Element -->
+                <audio id="audioPlayer" src="src/assets/song.mp3" preload="metadata"></audio>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Buttons -->
+      <section class="w-full max-w-lg">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+          <!-- Button 1: Frase de Hoy -->
+          <button id="btnOpenPhrase"
+            class="w-full sm:w-1/2 group relative p-1 rounded-lg transition-transform active:scale-95">
+            <div class="quadruple-border-box rounded-lg">
+              <div class="quadruple-border-inner-1 rounded">
+                <div class="quadruple-border-inner-2 rounded">
+                  <div
+                    class="quadruple-border-content py-3 px-4 rounded text-center bg-white group-hover:bg-turquoise-50 transition">
+                    <div class="flex items-center justify-center space-x-2 text-turquoise-800 font-semibold">
+                      <i data-lucide="quote" class="w-5 h-5 text-turquoise-600"></i>
+                      <span>Frase de hoy:</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+
+          <!-- Button 2: Flores de Hoy -->
+          <button id="btnOpenFlowers"
+            class="w-full sm:w-1/2 group relative p-1 rounded-lg transition-transform active:scale-95">
+            <div class="quadruple-border-box rounded-lg">
+              <div class="quadruple-border-inner-1 rounded">
+                <div class="quadruple-border-inner-2 rounded">
+                  <div
+                    class="quadruple-border-content py-3 px-4 rounded text-center bg-white group-hover:bg-turquoise-50 transition">
+                    <div class="flex items-center justify-center space-x-2 text-turquoise-800 font-semibold">
+                      <i data-lucide="flower-2" class="w-5 h-5 text-turquoise-600"></i>
+                      <span>Flores cursis:</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== MODALS / OVERLAYS ==================== -->
+
+    <!-- 1. Modal: Frase del Día -->
+    <div id="phraseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+      <div class="w-full max-w-md animate-in fade-in zoom-in duration-200">
+        <div class="quadruple-border-box rounded-xl">
+          <div class="quadruple-border-inner-1 rounded-lg">
+            <div class="quadruple-border-inner-2 rounded-lg">
+              <div class="quadruple-border-content p-6 rounded-lg text-center bg-white relative">
+                <div
+                  class="w-12 h-12 border-2 border-turquoise-600 rounded-full flex items-center justify-center mx-auto mb-3 bg-turquoise-50 text-turquoise-700">
+                  <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-turquoise-800 mb-2">Frase de Hoy</h3>
+                <div class="w-12 h-0.5 bg-turquoise-600 mx-auto mb-4"></div>
+                <blockquote class="italic text-slate-700 font-serif text-base md:text-lg mb-4 leading-relaxed px-2">
+                  "¡Quita esa cara de preocupación! Un corazón frío necesita una sonrisa calurosa."
+                </blockquote>
+                <p class="text-sm text-slate-500 mb-6">
+                  - Algún random que no conoces
+                </p>
+                <div>
+                  <button id="btnClosePhrase"
+                    class="px-6 py-2 border-2 border-turquoise-700 bg-turquoise-600 hover:bg-turquoise-700 text-white font-medium rounded-md shadow transition active:scale-95">
+                    Cerrar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Modal: Ramo de Tulipanes con Animación de Crecimiento -->
+    <div id="flowersModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 modal-backdrop hidden">
+      <div class="w-full max-w-2xl max-h-[92vh] overflow-y-auto">
+        <div class="quadruple-border-box rounded-xl">
+          <div class="quadruple-border-inner-1 rounded-lg">
+            <div class="quadruple-border-inner-2 rounded-lg">
+              <div class="quadruple-border-content p-4 md:p-6 rounded-lg bg-white relative text-center">
+
+                <!-- Close Button Top Right -->
+                <button id="btnCloseFlowers"
+                  class="absolute top-3 right-3 p-1.5 text-slate-500 hover:text-turquoise-800 border border-slate-300 rounded-md hover:bg-turquoise-50 transition">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <h3 class="text-2xl font-serif font-bold text-turquoise-800 mb-1">Ramo de Tulipanes (:</h3>
+                <p class="text-xs text-slate-600 mb-4">
+                  Haz clic en cualquier <strong class="text-turquoise-700">tulipán</strong> para recordar las
+                  cursilerías que un día dijimos...
+                </p>
+
+                <!-- Interactive Bouquet Stage -->
+                <div
+                  class="relative w-full h-[360px] md:h-[400px] bg-turquoise-50/60 rounded-lg border-2 border-turquoise-600 flex items-center justify-center overflow-hidden my-2">
+                  <div id="bouquetWrapper" class="bouquet-wrapper relative w-full h-full flex items-center justify-center">
+
+                    <!-- SVG Bouquet with Growing Animation Classes -->
+                    <svg class="w-full h-full max-w-md max-h-full" viewBox="0 0 400 450" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+
+                      <!-- BACKGROUND LEAVES & STEMS (Growing from bottom) -->
+                      <g id="stems-and-leaves" class="grow-group">
+                        <path class="grow-stem delay-1" d="M200 410 Q160 320 120 220" stroke="#028090" stroke-width="5"
+                          stroke-linecap="round" />
+                        <path class="grow-stem delay-2" d="M200 410 Q180 300 160 180" stroke="#00a896" stroke-width="5"
+                          stroke-linecap="round" />
+                        <path class="grow-stem delay-3" d="M200 410 Q200 290 200 160" stroke="#05668d" stroke-width="6"
+                          stroke-linecap="round" />
+                        <path class="grow-stem delay-2" d="M200 410 Q220 300 240 180" stroke="#00a896" stroke-width="5"
+                          stroke-linecap="round" />
+                        <path class="grow-stem delay-1" d="M200 410 Q240 320 280 220" stroke="#028090" stroke-width="5"
+                          stroke-linecap="round" />
+
+                        <!-- Decorative Leaf Shapes -->
+                        <path class="grow-leaf delay-2" d="M200 370 C140 340 100 280 90 220 C130 250 170 300 200 370Z"
+                          fill="#00a896" opacity="0.7" />
+                        <path class="grow-leaf delay-2" d="M200 370 C260 340 300 280 310 220 C270 250 230 300 200 370Z"
+                          fill="#028090" opacity="0.7" />
+                      </g>
+
+                      <!-- INTERACTIVE TULIP HEADS (Blooming Bloom Animation) -->
+
+                      <!-- 1. Lado Izquierdo Superior (X: 120) -->
+                      <g class="tulip-flower bloom-item delay-3"
+                        data-title="15 de Febrero (Wey no me acuerdo la fecha xD)"
+                        data-text="En tus ojos encuentro un universo infinito, donde mi sueños y anhelos se vuelven benditos.&#10;Tu risa es el eco que alegra mi ser, tal vez no pueda darte lo mejor del mundo pero sí lo mejor de mí.">
+                        <path d="M120 220 C100 190 90 150 120 130 C135 150 140 180 120 220Z" fill="#5eead4" />
+                        <path d="M120 220 C140 190 150 150 120 130 C105 150 100 180 120 220Z" fill="#2dd4bf" />
+                        <path d="M120 220 C105 180 115 140 120 130 C125 140 135 180 120 220Z" fill="#14b8a6" />
+                      </g>
+
+                      <!-- 2. Centro Izquierdo (X: 160) -->
+                      <g class="tulip-flower bloom-item delay-4" data-title="15 de Febrero"
+                        data-text="La luna es lo más bello de la noche, el sol es lo más bello del día, y tú eres lo más hermoso de mi vida. Aunque a veces estreces (I love you)">
+                        <path d="M160 180 C140 150 130 110 160 90 C175 110 180 140 160 180Z" fill="#2dd4bf" />
+                        <path d="M160 180 C180 150 190 110 160 90 C145 110 140 140 160 180Z" fill="#00a896" />
+                        <path d="M160 180 C145 140 155 100 160 90 C165 100 175 140 160 180Z" fill="#028090" />
+                      </g>
+
+                      <!-- 3. Tulipán Central Principal (X: 200) -->
+                      <g class="tulip-flower bloom-item delay-5" data-title="¡Feliz Cumpleaños!"
+                        data-text="¡Feliz cumpleaños, Luz María! La verdad es que me siento mal escribiendote estas cosas porque yo sé que tenés novio. ;) Pero ¡Felices XV!.">
+                        <path d="M200 160 C175 125 165 80 200 60 C220 80 225 120 200 160Z" fill="#00a896" />
+                        <path d="M200 160 C225 125 235 80 200 60 C180 80 175 120 200 160Z" fill="#028090" />
+                        <path d="M200 160 C180 115 195 70 200 60 C205 70 220 115 200 160Z" fill="#00a896" />
+                      </g>
+
+                      <!-- 4. Centro Derecho (X: 240) -->
+                      <g class="tulip-flower bloom-item delay-4" data-title="22 de Febrero"
+                        data-text="Por 1 beso de tus labios 2 caricias de tadía, 3 abrazos que demuestren 4 veces mi alegría y en la 5ta sinfonía de mi 6to pensamiento 7 veces te diría las 8 letras de un Te Quiero porque 9 veces por tí vivo y 10 veces por tí muero">
+                        <path d="M240 180 C220 150 210 110 240 90 C255 110 260 140 240 180Z" fill="#ffffff"
+                          stroke="#00a896" stroke-width="1" />
+                        <path d="M240 180 C260 150 270 110 240 90 C225 110 220 140 240 180Z" fill="#ccfbf1" />
+                        <path d="M240 180 C225 140 235 100 240 90 C245 100 255 140 240 180Z" fill="#99f6e4" />
+                      </g>
+
+                      <!-- 5. Lado Derecho Superior (X: 280) -->
+                      <g class="tulip-flower bloom-item delay-3" data-title="18 de Abril"
+                        data-text="Te amaré con todo y defectos, te amaré tal y como luces, te amaré siempre con todo mi corazáo. Te amo más que ayer y menos que mañana, no eres la luz más brillante, ni la pincelada más recta, pero siempre serás para mí la persona más bella y especial de mi mundo, mi...">
+                        <path d="M280 220 C260 190 250 150 280 130 C295 150 300 180 280 220Z" fill="#028090" />
+                        <path d="M280 220 C300 190 310 150 280 130 C265 150 260 180 280 220Z" fill="#05668d" />
+                        <path d="M280 220 C265 180 275 140 280 130 C285 140 295 180 280 220Z" fill="#0b4f6c" />
+                      </g>
+
+                      <!-- WRAPPING PAPER & RIBBON (Fade & Scale in) -->
+                      <g class="bloom-item delay-6">
+                        <path class="wrap-left" d="M200 410 L100 260 Q150 240 200 330 Z" fill="#ffffff" stroke="#00a896"
+                          stroke-width="2" />
+                        <path class="wrap-right" d="M200 410 L300 260 Q250 240 200 330 Z" fill="#ffffff"
+                          stroke="#028090" stroke-width="2" />
+
+                        <!-- Ribbon Bow -->
+                        <g id="ribbon-bow">
+                          <ellipse cx="180" cy="395" rx="22" ry="12" fill="#00a896" transform="rotate(-15 180 395)" />
+                          <ellipse cx="220" cy="395" rx="22" ry="12" fill="#00a896" transform="rotate(15 220 395)" />
+                          <circle cx="200" cy="395" r="7" fill="#05668d" />
+                          <path d="M196 400 L180 435 M204 400 L220 435" stroke="#05668d" stroke-width="4"
+                            stroke-linecap="round" />
+                        </g>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Message box revealed upon tulip click -->
+                <div id="tulipMessageBox"
+                  class="mt-3 p-3 bg-turquoise-50 border border-turquoise-300 rounded-lg text-left hidden">
+                  <div class="flex items-center space-x-2 text-turquoise-800 font-bold mb-1">
+                    <i data-lucide="flower" class="w-4 h-4 text-turquoise-600"></i>
+                    <span id="selectedTulipTitle" class="text-sm md:text-base"></span>
+                  </div>
+                  <p id="selectedTulipText" class="text-xs md:text-sm text-slate-700 leading-snug whitespace-pre-line"></p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Inicializar Lucide Icons
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+
+    function refreshIcons() {
+      setTimeout(() => {
+        if (typeof lucide !== 'undefined') {
+          lucide.createIcons();
+        }
+      }, 0);
+    }
+
+    // --- LÓGICA DEL REPRODUCTOR DE AUDIO ---
+    const audioPlayer = document.getElementById('audioPlayer');
+    const btnPlayPause = document.getElementById('btnPlayPause');
+    const playPauseIcon = document.getElementById('playPauseIcon');
+    const btnRewind = document.getElementById('btnRewind');
+    const btnForward = document.getElementById('btnForward');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeText = document.getElementById('currentTimeText');
+    const totalDurationText = document.getElementById('totalDurationText');
+
+    let isPlaying = false;
+    let simulatedDuration = 225; // 3:45 en segundos
+    let simulatedCurrentTime = 0;
+    let simulationInterval = null;
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function updatePlayPauseUI(playing) {
+      isPlaying = playing;
+      if (isPlaying) {
+        playPauseIcon.setAttribute('data-lucide', 'pause');
+      } else {
+        playPauseIcon.setAttribute('data-lucide', 'play');
+      }
+      refreshIcons();
+    }
+
+    function startSimulation() {
+      if (simulationInterval) clearInterval(simulationInterval);
+      simulationInterval = setInterval(() => {
+        if (isPlaying && !audioPlayer.duration) {
+          simulatedCurrentTime++;
+          if (simulatedCurrentTime > simulatedDuration) {
+            simulatedCurrentTime = 0;
+          }
+          seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+          currentTimeText.textContent = formatTime(simulatedCurrentTime);
+        }
+      }, 1000);
+    }
+
+    function togglePlay() {
+      if (isPlaying) {
+        audioPlayer.pause();
+        updatePlayPauseUI(false);
+        if (simulationInterval) clearInterval(simulationInterval);
+      } else {
+        audioPlayer.play().then(() => {
+          updatePlayPauseUI(true);
+        }).catch(err => {
+          console.log('Audio en modo simulación:', err);
+          updatePlayPauseUI(true);
+          startSimulation();
+        });
+      }
+    }
+
+    function rewind() {
+      if (audioPlayer.duration) {
+        audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+      } else {
+        simulatedCurrentTime = Math.max(0, simulatedCurrentTime - 10);
+        seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+        currentTimeText.textContent = formatTime(simulatedCurrentTime);
+      }
+    }
+
+    function forward() {
+      if (audioPlayer.duration) {
+        audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
+      } else {
+        simulatedCurrentTime = Math.min(simulatedDuration, simulatedCurrentTime + 10);
+        seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+        currentTimeText.textContent = formatTime(simulatedCurrentTime);
+      }
+    }
+
+    seekBar.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (audioPlayer.duration) {
+        audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
+      } else {
+        simulatedCurrentTime = (val / 100) * simulatedDuration;
+        currentTimeText.textContent = formatTime(simulatedCurrentTime);
+      }
+    });
+
+    audioPlayer.addEventListener('timeupdate', () => {
+      if (audioPlayer.duration) {
+        seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+        totalDurationText.textContent = formatTime(audioPlayer.duration);
+      }
+    });
+
+    btnPlayPause.addEventListener('click', togglePlay);
+    btnRewind.addEventListener('click', rewind);
+    btnForward.addEventListener('click', forward);
+
+    // --- LÓGICA DE MODALES ---
+    const phraseModal = document.getElementById('phraseModal');
+    const flowersModal = document.getElementById('flowersModal');
+    const btnOpenPhrase = document.getElementById('btnOpenPhrase');
+    const btnClosePhrase = document.getElementById('btnClosePhrase');
+    const btnOpenFlowers = document.getElementById('btnOpenFlowers');
+    const btnCloseFlowers = document.getElementById('btnCloseFlowers');
+
+    const bouquetWrapper = document.getElementById('bouquetWrapper');
+    const tulipMessageBox = document.getElementById('tulipMessageBox');
+    const selectedTulipTitle = document.getElementById('selectedTulipTitle');
+    const selectedTulipText = document.getElementById('selectedTulipText');
+
+    function openPhraseModal() {
+      phraseModal.classList.remove('hidden');
+      refreshIcons();
+    }
+
+    function closePhraseModal() {
+      phraseModal.classList.add('hidden');
+    }
+
+    function openFlowersModal() {
+      flowersModal.classList.remove('hidden');
+      bouquetWrapper.classList.remove('bouquet-open');
+      tulipMessageBox.classList.add('hidden');
+      selectedTulipTitle.textContent = '';
+      selectedTulipText.textContent = '';
+      refreshIcons();
+    }
+
+    function closeFlowersModal() {
+      flowersModal.classList.add('hidden');
+    }
+
+    btnOpenPhrase.addEventListener('click', openPhraseModal);
+    btnClosePhrase.addEventListener('click', closePhraseModal);
+    btnOpenFlowers.addEventListener('click', openFlowersModal);
+    btnCloseFlowers.addEventListener('click', closeFlowersModal);
+
+    // Cerrar al hacer clic en el backdrop
+    phraseModal.addEventListener('click', (e) => {
+      if (e.target === phraseModal) closePhraseModal();
+    });
+
+    flowersModal.addEventListener('click', (e) => {
+      if (e.target === flowersModal) closeFlowersModal();
+    });
+
+    // Clic en los tulipanes
+    const tulips = document.querySelectorAll('.tulip-flower');
+    tulips.forEach(tulip => {
+      tulip.addEventListener('click', () => {
+        const title = tulip.getAttribute('data-title');
+        const text = tulip.getAttribute('data-text');
+
+        bouquetWrapper.classList.add('bouquet-open');
+        selectedTulipTitle.textContent = title;
+        selectedTulipText.textContent = text;
+        tulipMessageBox.classList.remove('hidden');
+        refreshIcons();
+      });
+    });
+  </script>
+</body>
+
+</html>
