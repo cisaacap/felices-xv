@@ -1,13 +1,55 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
+
 <head>
   <meta charset="utf-8">
-  <title>ABrandNewDay</title>
+  <title>Feliz XV Años Mi Poshito Bello (Te extraño we :C)</title>
   <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            turquoise: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              300: '#5eead4',
+              500: '#14b8a6',
+              600: '#00a896',
+              700: '#028090',
+              800: '#05668d',
+              900: '#0b4f6c'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            script: ['Great Vibes', 'cursive'],
+            display: ['Cinzel', 'serif']
+          }
+        }
+      }
+    }
+  </script>
 </head>
-<body>
+
+<body class="bg-turquoise-50/50 text-slate-800 min-h-screen">
   <app-root></app-root>
 </body>
+
 </html>

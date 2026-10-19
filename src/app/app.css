@@ -1,0 +1,111 @@
+/* Quadruple Border Frame Styling (NO Gradients) */
+.quadruple-border-box {
+  border: 2px solid #00a896;
+  padding: 4px;
+  background-color: #ffffff;
+  box-shadow: 0 10px 25px -5px rgba(0, 168, 150, 0.15);
+}
+.quadruple-border-inner-1 {
+  border: 1px solid #028090;
+  padding: 4px;
+}
+.quadruple-border-inner-2 {
+  border: 2px solid #00a896;
+  padding: 4px;
+}
+.quadruple-border-content {
+  border: 1px solid #05668d;
+  background-color: #ffffff;
+}
+
+/* Modal Backdrop Blur */
+.modal-backdrop {
+  background-color: rgba(5, 102, 141, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+/* Tulip Opening Animation Classes */
+.bouquet-wrapper {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: bottom center;
+}
+.bouquet-open .wrap-left {
+  transform: rotate(-38deg) translateX(-45px) translateY(15px);
+  opacity: 0.85;
+}
+.bouquet-open .wrap-right {
+  transform: rotate(38deg) translateX(45px) translateY(15px);
+  opacity: 0.85;
+}
+.bouquet-open .tulip-stem {
+  transform: scale(1.08);
+}
+
+.wrap-left, .wrap-right {
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.5s ease;
+  transform-origin: bottom center;
+}
+
+.tulip-flower {
+  transition: transform 0.4s ease, filter 0.3s ease;
+  cursor: pointer;
+  white-space: pre-line; /* Preserve line breaks in text */
+}
+.tulip-flower:hover {
+  transform: scale(1.12) translateY(-8px);
+  filter: drop-shadow(0 8px 12px rgba(0,168,150,0.3));
+}
+
+/* Custom range input */
+input[type=range] {
+  accent-color: #00a896;
+}
+
+/* Animación de crecimiento del ramo al abrir el modal */
+@keyframes growUp {
+  0% {
+    transform: scaleY(0) scaleX(0.2) translateY(50px);
+    opacity: 0;
+  }
+  60% {
+    transform: scaleY(1.05) scaleX(1) translateY(-5px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bloomIn {
+  0% {
+    transform: scale(0) translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Clases aplicadas a los elementos SVG cuando el modal está abierto */
+.showFlowersModal .grow-stem,
+.bouquet-open ~ svg .grow-stem,
+.modal-backdrop:not(.hidden) .grow-stem {
+  animation: growUp 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: bottom center;
+}
+
+.modal-backdrop:not(.hidden) .bloom-item {
+  animation: bloomIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center bottom;
+  opacity: 0;
+}
+
+/* Retardos escalonados para que se vayan creando secuencialmente */
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.25s; }
+.delay-3 { animation-delay: 0.4s; }
+.delay-4 { animation-delay: 0.55s; }
+.delay-5 { animation-delay: 0.7s; }
+.delay-6 { animation-delay: 0.85s; }
