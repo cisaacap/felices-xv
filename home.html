@@ -525,10 +525,13 @@
     const totalDurationText = document.getElementById('totalDurationText');
 
     let isPlaying = false;
-    let simulatedDuration = 225; // 3:45 en segundos
-    let simulatedCurrentTime = 120;
-    let simulationInterval = null;
+let simulatedDuration = 225;
+let simulatedCurrentTime = 120;
+let simulationInterval = null;
 
+// Control del inicio de la canción
+const startAt = 120; // 2:00 minutos
+let hasStartedOnce = false;
     function formatTime(seconds) {
       const mins = Math.floor(seconds / 60);
       const secs = Math.floor(seconds % 60);
