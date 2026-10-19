@@ -497,7 +497,7 @@
 
   <script>
 
-    console.log("Versión 1.0.1");
+    console.log("Versión 1.0.w");
     
     // Inicializar Lucide Icons
     document.addEventListener('DOMContentLoaded', () => {
@@ -559,21 +559,45 @@
       }, 1000);
     }
 
-    function togglePlay() {
-      if (isPlaying) {
-        audioPlayer.pause();
-        updatePlayPauseUI(false);
-        if (simulationInterval) clearInterval(simulationInterval);
-      } else {
-        audioPlayer.play().then(() => {
-          updatePlayPauseUI(true);
-        }).catch(err => {
-          console.log('Audio en modo simulación:', err);
-          updatePlayPauseUI(true);
-          startSimulation();
-        });
-      }
+    
+function togglePlay() {
+  if (isPlaying) {
+    audioPlayer.pause();
+    updatePlayPauseUI(false);
+
+    if (simulationInterval) {
+      clearInterval(simulationInterval);
     }
+
+  } else {
+    // Saltar al minuto 2:00 solo la primera vez
+    if (!hasStartedOnce) {
+      if (audioPlayer.duration) {
+        audioPlayer.currentTime = Math.min(
+          startAt,
+          audioPlayer.duration
+        );
+      } else {
+        simulatedCurrentTime = startAt;
+        seekBar.value =
+          (simulatedCurrentTime / simulatedDuration) * 100;
+        currentTimeText.textContent =
+          formatTime(simulatedCurrentTime);
+      }
+
+      hasStartedOnce = true;
+    }
+
+    audioPlayer.play().then(() => {
+      updatePlayPauseUI(true);
+    }).catch(err => {
+      console.log('Audio en modo simulación:', err);
+      updatePlayPauseUI(true);
+      startSimulation();
+    });
+  }
+}
+
 
     function rewind() {
       if (audioPlayer.duration) {
