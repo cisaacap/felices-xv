@@ -258,7 +258,9 @@
                             <div class="quadruple-border-content p-5 md:p-6 rounded-lg flex flex-col items-center">
 
                                 <!-- Contenedor del Disco de Vinilo -->
-                                <div class="relative w-40 h-40 md:w-48 md:h-48 mb-4 flex items-center justify-center">
+                                <!-- Cambia las clases w-40 h-40 md:w-48 md:h-48 por medidas más grandes -->
+                                <div
+                                    class="relative w-64 h-64 md:w-80 md:h-80 mb-6 flex items-center justify-center mx-auto">
                                     <div id="vinylRecord"
                                         class="vinyl-record w-full h-full rounded-full shadow-2xl relative flex items-center justify-center">
                                         <!-- Surcos del Vinilo -->
@@ -274,7 +276,7 @@
                                                         alt="Portada de la Canción" class="w-full h-full object-cover">
                                                     <!-- Agujero central -->
                                                     <div
-                                                        class="absolute w-3 h-3 md:w-4 md:h-4 bg-gray-900 border border-gray-600 rounded-full z-10">
+                                                        class="absolute w-4 h-4 md:w-5 md:h-5 bg-gray-900 border border-gray-600 rounded-full z-10">
                                                     </div>
                                                 </div>
                                             </div>
@@ -566,7 +568,7 @@
 
     <script>
 
-        console.log("Versión 1.0.5");
+        console.log("Versión 1.0.3");
 
         // Inicializar Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
