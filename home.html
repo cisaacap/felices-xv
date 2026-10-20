@@ -3,8 +3,21 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Feliz XV Años Mi Poshito Bello (Te extraño we :C)</title>
+    <title>¡Felices XV Mi Poshito Hermosho (Te extraño we) :C!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Open Graph: vista previa al compartir el enlace -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="¡Felices XV Luz María!">
+    <meta property="og:description" content="¡Ojalá la pases bien en este día especial para tí, mi... ¿ex Xayah?! :)">
+    <meta property="og:image" content="https://cisaacap.github.io/felices-xv/src/assets/von.png">
+    <meta property="og:image:alt" content="Imagen de felicitación para los XV años de Luz María">
+
+    <!-- Twitter / X: vista previa al compartir el enlace -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="¡Felices XV Luz María!">
+    <meta name="twitter:description" content="¡Ojalá la pases bien en este día especial para tí, mi... ¿ex Xayah?! :)">
+    <meta name="twitter:image" content="https://cisaacap.github.io/felices-xv/src/assets/von.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -564,163 +577,204 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log("Versión 1.0.6");
 
-        // Inicializar y actualizar los iconos Lucide
-        function refreshIcons() {
+        console.log("Versión 1.0.3");
+
+        // Inicializar Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
             if (typeof lucide !== 'undefined') {
                 lucide.createIcons();
             }
-        }
-        refreshIcons();
+        });
 
-        // --- ELEMENTOS DEL REPRODUCTOR ---
-        const audioPlayer = document.getElementById('audioPlayer');
-        const btnPlayPause = document.getElementById('btnPlayPause');
-        const playPauseIcon = document.getElementById('playPauseIcon');
-        const btnRewind = document.getElementById('btnRewind');
-        const btnForward = document.getElementById('btnForward');
-        const seekBar = document.getElementById('seekBar');
-        const currentTimeText = document.getElementById('currentTimeText');
-        const totalDurationText = document.getElementById('totalDurationText');
-        const vinylRecord = document.getElementById('vinylRecord');
-
-        const simulatedDuration = 225;
-        let simulatedCurrentTime = 0;
-        let simulationInterval = null;
-        let isPlaying = false;
-        let hasStartedOnce = false;
-        const startAt = 128; // 2:08 minutos
-
-        function formatTime(seconds) {
-            seconds = Number.isFinite(seconds) ? seconds : 0;
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        function refreshIcons() {
+            setTimeout(() => {
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, 0);
         }
 
-        function updatePlayPauseUI(playing) {
-            isPlaying = playing;
-            if (playPauseIcon) {
-                playPauseIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
-                refreshIcons();
-            }
-            if (vinylRecord) {
-                vinylRecord.classList.toggle('spinning', isPlaying);
-            }
-        }
+        // --- LÓGICA DEL REPRODUCTOR DE AUDIO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicialización de iconos Lucide
+            refreshIcons();
 
-        function updateTimeDisplay(current, duration) {
-            if (seekBar && duration > 0) {
-                seekBar.value = (current / duration) * 100;
-            }
-            if (currentTimeText) currentTimeText.textContent = formatTime(current);
-            if (totalDurationText && duration > 0) {
-                totalDurationText.textContent = formatTime(duration);
-            }
-        }
+            // Elementos del reproductor
+            const audioPlayer = document.getElementById('audioPlayer');
+            const btnPlayPause = document.getElementById('btnPlayPause');
+            const playPauseIcon = document.getElementById('playPauseIcon');
+            const btnRewind = document.getElementById('btnRewind');
+            const btnForward = document.getElementById('btnForward');
+            const seekBar = document.getElementById('seekBar');
+            const currentTimeText = document.getElementById('currentTimeText');
+            const totalDurationText = document.getElementById('totalDurationText');
+            const vinylRecord = document.getElementById('vinylRecord');
 
-        function startSimulation() {
-            if (simulationInterval) clearInterval(simulationInterval);
-            simulationInterval = setInterval(() => {
-                if (!isPlaying || (audioPlayer && !audioPlayer.paused && audioPlayer.duration)) return;
-                simulatedCurrentTime = simulatedCurrentTime >= simulatedDuration ? 0 : simulatedCurrentTime + 1;
-                updateTimeDisplay(simulatedCurrentTime, simulatedDuration);
-            }, 1000);
-        }
+            let isPlaying = false;
+            let simulatedDuration = 225;
+            let simulatedCurrentTime = 127.6;
+            let simulationInterval = null;
 
-        async function togglePlay() {
-            if (!audioPlayer) return;
+            const startAt = 127.6; // 2:08 minutos
+            let hasStartedOnce = false;
 
-            if (isPlaying) {
-                audioPlayer.pause();
-                if (simulationInterval) clearInterval(simulationInterval);
-                updatePlayPauseUI(false);
-                return;
-            }
-
-            // Al pulsar reproducir por primera vez, comenzar en 2:00.
-            if (!hasStartedOnce) {
-                const setStartPosition = () => {
-                    const duration = Number.isFinite(audioPlayer.duration) ? audioPlayer.duration : simulatedDuration;
-                    const position = Math.min(startAt, duration);
-                    if (Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                        audioPlayer.currentTime = position;
-                    }
-                    simulatedCurrentTime = position;
-                    updateTimeDisplay(position, duration);
-                    hasStartedOnce = true;
-                };
-
-                if (audioPlayer.readyState >= 1) {
-                    setStartPosition();
-                } else {
-                    audioPlayer.addEventListener('loadedmetadata', setStartPosition, { once: true });
+            function refreshIcons() {
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
                 }
             }
 
-            try {
-                await audioPlayer.play();
-                if (simulationInterval) clearInterval(simulationInterval);
-                updatePlayPauseUI(true);
-            } catch (error) {
-                console.warn('No se pudo reproducir el audio:', error);
-                updatePlayPauseUI(false);
-                if (!audioPlayer.duration) startSimulation();
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
             }
-        }
 
-        if (btnPlayPause) btnPlayPause.addEventListener('click', togglePlay);
+            function updatePlayPauseUI(playing) {
+                isPlaying = playing;
 
-        if (btnRewind) {
-            btnRewind.addEventListener('click', () => {
-                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+                // Actualizar icono
+                if (playPauseIcon) {
+                    playPauseIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+                    refreshIcons();
+                }
+
+                // Controlar animación del vinilo
+                if (vinylRecord) {
+                    if (isPlaying) {
+                        vinylRecord.classList.add('spinning');
+                    } else {
+                        vinylRecord.classList.remove('spinning');
+                    }
+                }
+            }
+
+            function startSimulation() {
+                if (simulationInterval) clearInterval(simulationInterval);
+                simulationInterval = setInterval(() => {
+                    if (isPlaying && (!audioPlayer || !audioPlayer.duration)) {
+                        simulatedCurrentTime++;
+                        if (simulatedCurrentTime > simulatedDuration) {
+                            simulatedCurrentTime = 0;
+                        }
+                        if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
+                    }
+                }, 1000);
+            }
+
+            function togglePlay() {
+                if (isPlaying) {
+                    if (audioPlayer) audioPlayer.pause();
+                    updatePlayPauseUI(false);
+                    if (simulationInterval) clearInterval(simulationInterval);
+                } else {
+                    // Saltar al minuto 2:00 la primera vez
+                    if (!hasStartedOnce) {
+                        if (audioPlayer && audioPlayer.duration) {
+                            audioPlayer.currentTime = Math.min(startAt, audioPlayer.duration);
+                        } else {
+                            simulatedCurrentTime = startAt;
+                            if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                            if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
+                        }
+                        hasStartedOnce = true;
+                    }
+
+                    // Intentar reproducir el audio
+                    if (audioPlayer && audioPlayer.src) {
+                        const playPromise = audioPlayer.play();
+                        if (playPromise !== undefined) {
+                            playPromise
+                                .then(() => {
+                                    updatePlayPauseUI(true);
+                                })
+                                .catch(err => {
+                                    console.warn('Reproducción real bloqueada o fallida. Activando simulación:', err);
+                                    updatePlayPauseUI(true);
+                                    startSimulation();
+                                });
+                        } else {
+                            updatePlayPauseUI(true);
+                        }
+                    } else {
+                        // Modo simulación directa si no hay archivo asignado al audio
+                        updatePlayPauseUI(true);
+                        startSimulation();
+                    }
+                }
+            }
+
+            function rewind() {
+                if (audioPlayer && audioPlayer.duration) {
                     audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
                 } else {
                     simulatedCurrentTime = Math.max(0, simulatedCurrentTime - 10);
-                    updateTimeDisplay(simulatedCurrentTime, simulatedDuration);
+                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                 }
-            });
-        }
+            }
 
-        if (btnForward) {
-            btnForward.addEventListener('click', () => {
-                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+            function forward() {
+                if (audioPlayer && audioPlayer.duration) {
                     audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
                 } else {
                     simulatedCurrentTime = Math.min(simulatedDuration, simulatedCurrentTime + 10);
-                    updateTimeDisplay(simulatedCurrentTime, simulatedDuration);
+                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                 }
-            });
-        }
+            }
 
-        if (seekBar) {
-            seekBar.addEventListener('input', (event) => {
-                const percentage = Number(event.target.value) / 100;
-                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                    audioPlayer.currentTime = percentage * audioPlayer.duration;
-                } else {
-                    simulatedCurrentTime = percentage * simulatedDuration;
-                    updateTimeDisplay(simulatedCurrentTime, simulatedDuration);
-                }
-            });
-        }
+            // Event Listeners con verificación
+            if (btnPlayPause) btnPlayPause.addEventListener('click', togglePlay);
+            if (btnRewind) btnRewind.addEventListener('click', rewind);
+            if (btnForward) btnForward.addEventListener('click', forward);
 
-        if (audioPlayer) {
-            audioPlayer.addEventListener('timeupdate', () => {
-                if (Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                    updateTimeDisplay(audioPlayer.currentTime, audioPlayer.duration);
-                }
-            });
-            audioPlayer.addEventListener('ended', () => {
-                updatePlayPauseUI(false);
-                if (simulationInterval) clearInterval(simulationInterval);
-            });
-            audioPlayer.addEventListener('pause', () => {
-                if (isPlaying) updatePlayPauseUI(false);
-            });
-        }
+            if (seekBar) {
+                seekBar.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    if (audioPlayer && audioPlayer.duration) {
+                        audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
+                    } else {
+                        simulatedCurrentTime = (val / 100) * simulatedDuration;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
+                    }
+                });
+            }
+
+            if (audioPlayer) {
+                audioPlayer.addEventListener('timeupdate', () => {
+                    if (audioPlayer.duration) {
+                        if (seekBar) seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+                        if (totalDurationText) totalDurationText.textContent = formatTime(audioPlayer.duration);
+                    }
+                });
+            }
+        });
+
+        seekBar.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if (audioPlayer.duration) {
+                audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
+            } else {
+                simulatedCurrentTime = (val / 100) * simulatedDuration;
+                currentTimeText.textContent = formatTime(simulatedCurrentTime);
+            }
+        });
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            if (audioPlayer.duration) {
+                seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+                totalDurationText.textContent = formatTime(audioPlayer.duration);
+            }
+        });
+
+        btnPlayPause.addEventListener('click', togglePlay);
+        btnRewind.addEventListener('click', rewind);
+        btnForward.addEventListener('click', forward);
 
         // --- LÓGICA DE MODALES ---
         const phraseModal = document.getElementById('phraseModal');
@@ -736,66 +790,56 @@
         const selectedTulipText = document.getElementById('selectedTulipText');
 
         function openPhraseModal() {
-            if (!phraseModal) return;
             phraseModal.classList.remove('hidden');
             refreshIcons();
         }
 
         function closePhraseModal() {
-            if (phraseModal) phraseModal.classList.add('hidden');
+            phraseModal.classList.add('hidden');
         }
 
         function openFlowersModal() {
-            if (!flowersModal) return;
             flowersModal.classList.remove('hidden');
-            if (bouquetWrapper) bouquetWrapper.classList.remove('bouquet-open');
-            if (tulipMessageBox) tulipMessageBox.classList.add('hidden');
-            if (selectedTulipTitle) selectedTulipTitle.textContent = '';
-            if (selectedTulipText) selectedTulipText.textContent = '';
+            bouquetWrapper.classList.remove('bouquet-open');
+            tulipMessageBox.classList.add('hidden');
+            selectedTulipTitle.textContent = '';
+            selectedTulipText.textContent = '';
             refreshIcons();
         }
 
         function closeFlowersModal() {
-            if (flowersModal) flowersModal.classList.add('hidden');
+            flowersModal.classList.add('hidden');
         }
 
-        if (btnOpenPhrase) btnOpenPhrase.addEventListener('click', openPhraseModal);
-        if (btnClosePhrase) btnClosePhrase.addEventListener('click', closePhraseModal);
-        if (btnOpenFlowers) btnOpenFlowers.addEventListener('click', openFlowersModal);
-        if (btnCloseFlowers) btnCloseFlowers.addEventListener('click', closeFlowersModal);
+        btnOpenPhrase.addEventListener('click', openPhraseModal);
+        btnClosePhrase.addEventListener('click', closePhraseModal);
+        btnOpenFlowers.addEventListener('click', openFlowersModal);
+        btnCloseFlowers.addEventListener('click', closeFlowersModal);
 
-        if (phraseModal) {
-            phraseModal.addEventListener('click', (event) => {
-                if (event.target === phraseModal) closePhraseModal();
-            });
-        }
+        // Cerrar al hacer clic en el backdrop
+        phraseModal.addEventListener('click', (e) => {
+            if (e.target === phraseModal) closePhraseModal();
+        });
 
-        if (flowersModal) {
-            flowersModal.addEventListener('click', (event) => {
-                if (event.target === flowersModal) closeFlowersModal();
-            });
-        }
+        flowersModal.addEventListener('click', (e) => {
+            if (e.target === flowersModal) closeFlowersModal();
+        });
 
-        // Clic en los tulipanes para mostrar sus mensajes
-        document.querySelectorAll('.tulip-flower').forEach((tulip) => {
+        // Clic en los tulipanes
+        const tulips = document.querySelectorAll('.tulip-flower');
+        tulips.forEach(tulip => {
             tulip.addEventListener('click', () => {
-                if (bouquetWrapper) bouquetWrapper.classList.add('bouquet-open');
-                if (selectedTulipTitle) selectedTulipTitle.textContent = tulip.getAttribute('data-title') || '';
-                if (selectedTulipText) selectedTulipText.textContent = tulip.getAttribute('data-text') || '';
-                if (tulipMessageBox) tulipMessageBox.classList.remove('hidden');
+                const title = tulip.getAttribute('data-title');
+                const text = tulip.getAttribute('data-text');
+
+                bouquetWrapper.classList.add('bouquet-open');
+                selectedTulipTitle.textContent = title;
+                selectedTulipText.textContent = text;
+                tulipMessageBox.classList.remove('hidden');
                 refreshIcons();
             });
         });
-
-        // Permitir cerrar los modales con Escape
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                closePhraseModal();
-                closeFlowersModal();
-            }
-        });
-    });
-</script>
+    </script>
 </body>
 
 </html>
