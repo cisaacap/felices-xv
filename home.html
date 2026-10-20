@@ -3,21 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <title>¡Felices XV Mi Poshito Hermosho (Te extraño we) :C!</title>
+    <title>Feliz XV Años Mi Poshito Bello (Te extraño we :C)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Open Graph: vista previa al compartir el enlace -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="¡Felices XV Luz María!">
-    <meta property="og:description" content="¡Ojalá la pases bien en este día especial para tí, mi... ¿ex Xayah?! :)">
-    <meta property="og:image" content="https://cisaacap.github.io/felices-xv/src/assets/von.png">
-    <meta property="og:image:alt" content="Imagen de felicitación para los XV años de Luz María">
-
-    <!-- Twitter / X: vista previa al compartir el enlace -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="¡Felices XV Luz María!">
-    <meta name="twitter:description" content="¡Ojalá la pases bien en este día especial para tí, mi... ¿ex Xayah?! :)">
-    <meta name="twitter:image" content="https://cisaacap.github.io/felices-xv/src/assets/von.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,16 +74,6 @@
         .modal-backdrop {
             background-color: rgba(5, 102, 141, 0.4);
             backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        /* Modal accessibility and mobile viewport support */
-        .modal-backdrop {
-            overscroll-behavior: contain;
-        }
-
-        .modal-backdrop [role="dialog"] {
-            outline: none;
         }
 
         /* Tulip Opening Animation Classes */
@@ -125,16 +102,12 @@
             transition: transform 0.4s ease, filter 0.3s ease;
             cursor: pointer;
             white-space: pre-line;
+            /* Preserve line breaks in text */
         }
 
         .tulip-flower:hover {
             transform: scale(1.12) translateY(-8px);
             filter: drop-shadow(0 8px 12px rgba(0, 168, 150, 0.3));
-        }
-
-        .tulip-flower:focus-visible {
-            outline: 3px solid #05668d;
-            outline-offset: 4px;
         }
 
         /* Custom range input */
@@ -185,12 +158,29 @@
         }
 
         /* Retardos escalonados para que se vayan creando secuencialmente */
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.25s; }
-        .delay-3 { animation-delay: 0.4s; }
-        .delay-4 { animation-delay: 0.55s; }
-        .delay-5 { animation-delay: 0.7s; }
-        .delay-6 { animation-delay: 0.85s; }
+        .delay-1 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.25s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.55s;
+        }
+
+        .delay-5 {
+            animation-delay: 0.7s;
+        }
+
+        .delay-6 {
+            animation-delay: 0.85s;
+        }
 
         /* --- ESTILOS Y ANIMACIÓN DEL VINILO --- */
         .vinyl-record {
@@ -205,32 +195,62 @@
         }
 
         @keyframes spinVinyl {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .spinning {
             animation: spinVinyl 3s linear infinite !important;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .bouquet-wrapper,
-            .wrap-left,
-            .wrap-right,
-            .tulip-flower {
-                transition: none !important;
-            }
-
-            #flowersModal:not(.hidden) .grow-stem,
-            #flowersModal:not(.hidden) .bloom-item {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-            }
-
-            .spinning {
-                animation: none !important;
-            }
+        /* Letras sincronizadas */
+        .lyrics-list {
+            max-height: 280px;
+            overflow-y: auto;
+            padding: 4px 6px 4px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #5eead4 #f0fdfa;
         }
+        .lyrics-line {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+            color: #64748b;
+            text-align: center;
+            padding: 9px 10px;
+            margin: 2px 0;
+            font: inherit;
+            font-size: .92rem;
+            line-height: 1.45;
+            cursor: pointer;
+            transition: color .2s ease, background-color .2s ease, transform .2s ease;
+        }
+        .lyrics-line:hover {
+            background: #f0fdfa;
+            color: #05668d;
+        }
+        .lyrics-line.is-active {
+            background: #ccfbf1;
+            color: #05668d;
+            font-weight: 700;
+            transform: scale(1.01);
+        }
+        .lyrics-line.is-past {
+            color: #94a3b8;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .lyrics-list { scroll-behavior: auto; }
+            .lyrics-line { transition: none; }
+        }
+
     </style>
 </head>
 
@@ -246,6 +266,7 @@
                     <div class="quadruple-border-inner-1 rounded">
                         <div class="quadruple-border-inner-2 rounded">
                             <div class="quadruple-border-content py-6 px-4 rounded">
+                                <!-- Strictly ONLY ONE <h1> tag -->
                                 <h1
                                     class="text-3xl md:text-5xl lg:text-6xl font-serif tracking-wide text-slate-800 uppercase font-semibold">
                                     Feliz <span
@@ -274,23 +295,28 @@
                     </p>
                 </div>
 
+                <!-- Music Player Card with Quadruple Border -->
                 <div class="quadruple-border-box rounded-xl">
                     <div class="quadruple-border-inner-1 rounded-lg">
                         <div class="quadruple-border-inner-2 rounded-lg">
                             <div class="quadruple-border-content p-5 md:p-6 rounded-lg flex flex-col items-center">
 
+                                <!-- Contenedor del Disco de Vinilo (Base de tamaño fija y cuadrada) -->
                                 <div
                                     class="relative w-40 h-40 md:w-48 md:h-48 mb-4 flex items-center justify-center mx-auto aspect-square shrink-0">
                                     <div id="vinylRecord"
                                         class="vinyl-record w-full h-full rounded-full shadow-2xl relative flex items-center justify-center aspect-square shrink-0">
+                                        <!-- Surco exterior (Círculo perfecto) -->
                                         <div
                                             class="vinyl-groove w-11/12 h-11/12 rounded-full flex items-center justify-center aspect-square shrink-0">
+                                            <!-- Etiqueta central (Imagen en el 75% del disco, círculo perfecto) -->
                                             <div
                                                 class="vinyl-center w-3/4 h-3/4 rounded-full overflow-hidden border-2 border-turquoise-600 relative flex items-center justify-center shadow-inner aspect-square shrink-0">
                                                 <img id="albumCover" src="src/assets/song-cover.jpg"
                                                     onerror="this.onerror=null; this.src='https://placehold.co/400x400/00a896/ffffff?text=Portada+de+Cancion';"
                                                     alt="Portada de la Canción"
                                                     class="w-full h-full object-cover rounded-full">
+                                                <!-- Agujero central del vinilo -->
                                                 <div
                                                     class="absolute w-3 h-3 md:w-4 md:h-4 bg-gray-900 border border-gray-600 rounded-full z-10 aspect-square shrink-0">
                                                 </div>
@@ -299,16 +325,19 @@
                                     </div>
                                 </div>
 
+                                <!-- Song Details -->
                                 <div class="text-center w-full mb-4">
-                                    <h2 class="text-lg md:text-xl font-bold text-slate-800 truncate">Tu Boda</h2>
+                                    <h2 class="text-lg md:text-xl font-bold text-slate-800 truncate">
+                                        Tu Boda
+                                    </h2>
                                     <p class="text-sm text-turquoise-700 font-medium">
                                         Oscar Maydon ft. Fuerza Regida
                                     </p>
                                 </div>
 
+                                <!-- Progress Bar & Timers -->
                                 <div class="w-full mb-4">
                                     <input id="seekBar" type="range" value="0" min="0" max="100"
-                                        aria-label="Posición de la canción"
                                         class="w-full h-1.5 bg-turquoise-100 rounded-lg appearance-none cursor-pointer">
                                     <div class="flex justify-between text-xs text-slate-500 font-mono mt-1">
                                         <span id="currentTimeText">0:00</span>
@@ -316,27 +345,51 @@
                                     </div>
                                 </div>
 
+                                <!-- Controls -->
                                 <div class="flex items-center justify-center space-x-4 md:space-x-6 w-full">
-                                    <button id="btnRewind" type="button" title="Retroceder 10 segundos"
-                                        aria-label="Retroceder 10 segundos"
+                                    <!-- Rewind 10s -->
+                                    <button id="btnRewind" title="Retroceder 10 segundos"
                                         class="p-3 border-2 border-turquoise-600 rounded-full hover:bg-turquoise-50 text-turquoise-700 active:scale-95 transition">
                                         <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
                                     </button>
 
-                                    <button id="btnPlayPause" type="button" title="Reproducir / Pausar"
-                                        aria-label="Reproducir canción"
+                                    <!-- Play / Pause -->
+                                    <button id="btnPlayPause" title="Reproducir / Pausar"
                                         class="p-4 border-2 border-turquoise-700 bg-turquoise-600 text-white rounded-full hover:bg-turquoise-700 active:scale-95 shadow-md transition">
                                         <i id="playPauseIcon" data-lucide="play" class="w-7 h-7 fill-current"></i>
                                     </button>
 
-                                    <button id="btnForward" type="button" title="Adelantar 10 segundos"
-                                        aria-label="Adelantar 10 segundos"
+                                    <!-- Forward 10s -->
+                                    <button id="btnForward" title="Adelantar 10 segundos"
                                         class="p-3 border-2 border-turquoise-600 rounded-full hover:bg-turquoise-50 text-turquoise-700 active:scale-95 transition">
                                         <i data-lucide="rotate-cw" class="w-5 h-5"></i>
                                     </button>
                                 </div>
 
+                                <!-- Hidden HTML5 Audio Element -->
                                 <audio id="audioPlayer" src="src/assets/song.mp3" preload="metadata"></audio>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Letras sincronizadas -->
+            <section id="lyricsSection" class="w-full max-w-lg mt-5">
+                <div class="quadruple-border-box rounded-xl">
+                    <div class="quadruple-border-inner-1 rounded-lg">
+                        <div class="quadruple-border-inner-2 rounded-lg">
+                            <div class="quadruple-border-content p-4 md:p-5 rounded-lg">
+                                <div class="flex items-center justify-between gap-3 mb-3">
+                                    <div class="flex items-center gap-2 text-turquoise-800 font-semibold">
+                                        <i data-lucide="music-2" class="w-5 h-5 text-turquoise-600"></i>
+                                        <h2 class="text-lg">Letra sincronizada</h2>
+                                    </div>
+                                    <span id="lyricsCurrentTime" class="text-xs font-mono text-slate-500">0:00</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mb-3">La letra avanza junto con la canción. Puedes tocar una línea para saltar a esa parte.</p>
+                                <div id="lyricsList" class="lyrics-list" aria-live="polite" aria-label="Letra sincronizada"></div>
                             </div>
                         </div>
                     </div>
@@ -346,7 +399,8 @@
             <!-- Action Buttons -->
             <section class="w-full max-w-lg">
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
-                    <button id="btnOpenPhrase" type="button"
+                    <!-- Button 1: Frase de Hoy -->
+                    <button id="btnOpenPhrase"
                         class="w-full sm:w-1/2 group relative p-1 rounded-lg transition-transform active:scale-95">
                         <div class="quadruple-border-box rounded-lg">
                             <div class="quadruple-border-inner-1 rounded">
@@ -364,7 +418,8 @@
                         </div>
                     </button>
 
-                    <button id="btnOpenFlowers" type="button"
+                    <!-- Button 2: Flores de Hoy -->
+                    <button id="btnOpenFlowers"
                         class="w-full sm:w-1/2 group relative p-1 rounded-lg transition-transform active:scale-95">
                         <div class="quadruple-border-box rounded-lg">
                             <div class="quadruple-border-inner-1 rounded">
@@ -388,11 +443,8 @@
         <!-- ==================== MODALS / OVERLAYS ==================== -->
 
         <!-- 1. Modal: Frase del Día -->
-        <div id="phraseModal"
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden"
-            aria-hidden="true">
-            <div class="w-full max-w-md max-h-[92vh] overflow-y-auto" role="dialog" aria-modal="true"
-                aria-labelledby="phraseModalTitle" tabindex="-1">
+        <div id="phraseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+            <div class="w-full max-w-md animate-in fade-in zoom-in duration-200">
                 <div class="quadruple-border-box rounded-xl">
                     <div class="quadruple-border-inner-1 rounded-lg">
                         <div class="quadruple-border-inner-2 rounded-lg">
@@ -401,8 +453,7 @@
                                     class="w-12 h-12 border-2 border-turquoise-600 rounded-full flex items-center justify-center mx-auto mb-3 bg-turquoise-50 text-turquoise-700">
                                     <i data-lucide="sparkles" class="w-6 h-6"></i>
                                 </div>
-                                <h3 id="phraseModalTitle"
-                                    class="text-xl font-serif font-bold text-turquoise-800 mb-2">Frase de Hoy</h3>
+                                <h3 class="text-xl font-serif font-bold text-turquoise-800 mb-2">Frase de Hoy</h3>
                                 <div class="w-12 h-0.5 bg-turquoise-600 mx-auto mb-4"></div>
                                 <blockquote
                                     class="italic text-slate-700 font-serif text-base md:text-lg mb-4 leading-relaxed px-2">
@@ -412,7 +463,7 @@
                                     - Algún random que no conoces
                                 </p>
                                 <div>
-                                    <button id="btnClosePhrase" type="button"
+                                    <button id="btnClosePhrase"
                                         class="px-6 py-2 border-2 border-turquoise-700 bg-turquoise-600 hover:bg-turquoise-700 text-white font-medium rounded-md shadow transition active:scale-95">
                                         Cerrar
                                     </button>
@@ -426,23 +477,20 @@
 
         <!-- 2. Modal: Ramo de Tulipanes con Animación de Crecimiento -->
         <div id="flowersModal"
-            class="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 modal-backdrop hidden"
-            aria-hidden="true">
-            <div class="w-full max-w-2xl max-h-[92vh] overflow-y-auto" role="dialog" aria-modal="true"
-                aria-labelledby="flowersModalTitle" tabindex="-1">
+            class="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 modal-backdrop hidden">
+            <div class="w-full max-w-2xl max-h-[92vh] overflow-y-auto">
                 <div class="quadruple-border-box rounded-xl">
                     <div class="quadruple-border-inner-1 rounded-lg">
                         <div class="quadruple-border-inner-2 rounded-lg">
                             <div class="quadruple-border-content p-4 md:p-6 rounded-lg bg-white relative text-center">
 
                                 <!-- Close Button Top Right -->
-                                <button id="btnCloseFlowers" type="button" aria-label="Cerrar ventana de tulipanes"
+                                <button id="btnCloseFlowers"
                                     class="absolute top-3 right-3 p-1.5 text-slate-500 hover:text-turquoise-800 border border-slate-300 rounded-md hover:bg-turquoise-50 transition">
                                     <i data-lucide="x" class="w-5 h-5"></i>
                                 </button>
 
-                                <h3 id="flowersModalTitle"
-                                    class="text-2xl font-serif font-bold text-turquoise-800 mb-1">Ramo de Tulipanes (:
+                                <h3 class="text-2xl font-serif font-bold text-turquoise-800 mb-1">Ramo de Tulipanes (:
                                 </h3>
                                 <p class="text-xs text-slate-600 mb-4">
                                     Haz clic en cualquier <strong class="text-turquoise-700">tulipán</strong> para
@@ -460,7 +508,7 @@
                                         <svg class="w-full h-full max-w-md max-h-full" viewBox="0 0 400 450" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
 
-                                            <!-- BACKGROUND LEAVES & STEMS -->
+                                            <!-- BACKGROUND LEAVES & STEMS (Growing from bottom) -->
                                             <g id="stems-and-leaves" class="grow-group">
                                                 <path class="grow-stem delay-1" d="M200 410 Q160 320 120 220"
                                                     stroke="#028090" stroke-width="5" stroke-linecap="round" />
@@ -473,6 +521,7 @@
                                                 <path class="grow-stem delay-1" d="M200 410 Q240 320 280 220"
                                                     stroke="#028090" stroke-width="5" stroke-linecap="round" />
 
+                                                <!-- Decorative Leaf Shapes -->
                                                 <path class="grow-leaf delay-2"
                                                     d="M200 370 C140 340 100 280 90 220 C130 250 170 300 200 370Z"
                                                     fill="#00a896" opacity="0.7" />
@@ -481,8 +530,9 @@
                                                     fill="#028090" opacity="0.7" />
                                             </g>
 
-                                            <!-- INTERACTIVE TULIP HEADS -->
+                                            <!-- INTERACTIVE TULIP HEADS (Blooming Bloom Animation) -->
 
+                                            <!-- 1. Lado Izquierdo Superior (X: 120) -->
                                             <g class="tulip-flower bloom-item delay-3"
                                                 data-title="15 de Febrero (Wey no me acuerdo la fecha xD)"
                                                 data-text="En tus ojos encuentro un universo infinito, donde mi sueños y anhelos se vuelven benditos.&#10;Tu risa es el eco que alegra mi ser, tal vez no pueda darte lo mejor del mundo pero sí lo mejor de mí.">
@@ -494,6 +544,7 @@
                                                     fill="#14b8a6" />
                                             </g>
 
+                                            <!-- 2. Centro Izquierdo (X: 160) -->
                                             <g class="tulip-flower bloom-item delay-4" data-title="15 de Febrero"
                                                 data-text="La luna es lo más bello de la noche, el sol es lo más bello del día, y tú eres lo más hermoso de mi vida. Aunque a veces estreces (I love you)">
                                                 <path d="M160 180 C140 150 130 110 160 90 C175 110 180 140 160 180Z"
@@ -504,6 +555,7 @@
                                                     fill="#028090" />
                                             </g>
 
+                                            <!-- 3. Tulipán Central Principal (X: 200) -->
                                             <g class="tulip-flower bloom-item delay-5" data-title="¡Feliz Cumpleaños!"
                                                 data-text="¡Feliz cumpleaños, Luz María! La verdad es que me siento mal escribiendote estas cosas porque yo sé que tenés novio. ;) Pero ¡Felices XV!.">
                                                 <path d="M200 160 C175 125 165 80 200 60 C220 80 225 120 200 160Z"
@@ -514,6 +566,7 @@
                                                     fill="#00a896" />
                                             </g>
 
+                                            <!-- 4. Centro Derecho (X: 240) -->
                                             <g class="tulip-flower bloom-item delay-4" data-title="22 de Febrero"
                                                 data-text="Por 1 beso de tus labios 2 caricias te daría, 3 abrazos que demuestren 4 veces mi alegría y en la 5ta sinfonía de mi 6to pensamiento 7 veces te diría las 8 letras de un 'Te Quiero' porque 9 veces por tí vivo y 10 veces por tí muero">
                                                 <path d="M240 180 C220 150 210 110 240 90 C255 110 260 140 240 180Z"
@@ -524,6 +577,7 @@
                                                     fill="#99f6e4" />
                                             </g>
 
+                                            <!-- 5. Lado Derecho Superior (X: 280) -->
                                             <g class="tulip-flower bloom-item delay-3" data-title="18 de Abril"
                                                 data-text="Te amaré con todo y defectos, te amaré tal y como luces, te amaré siempre con todo mi corazáo. Te amo más que ayer y menos que mañana, no eres la luz más brillante, ni la pincelada más recta, pero siempre serás para mí la persona más bella y especial de mi mundo, mi... (mejor no termino 🙃)">
                                                 <path d="M280 220 C260 190 250 150 280 130 C295 150 300 180 280 220Z"
@@ -534,13 +588,14 @@
                                                     fill="#0b4f6c" />
                                             </g>
 
-                                            <!-- WRAPPING PAPER & RIBBON -->
+                                            <!-- WRAPPING PAPER & RIBBON (Fade & Scale in) -->
                                             <g class="bloom-item delay-6">
                                                 <path class="wrap-left" d="M200 410 L100 260 Q150 240 200 330 Z"
                                                     fill="#ffffff" stroke="#00a896" stroke-width="2" />
                                                 <path class="wrap-right" d="M200 410 L300 260 Q250 240 200 330 Z"
                                                     fill="#ffffff" stroke="#028090" stroke-width="2" />
 
+                                                <!-- Ribbon Bow -->
                                                 <g id="ribbon-bow">
                                                     <ellipse cx="180" cy="395" rx="22" ry="12" fill="#00a896"
                                                         transform="rotate(-15 180 395)" />
@@ -557,8 +612,7 @@
 
                                 <!-- Message box revealed upon tulip click -->
                                 <div id="tulipMessageBox"
-                                    class="mt-3 p-3 bg-turquoise-50 border border-turquoise-300 rounded-lg text-left hidden"
-                                    aria-live="polite">
+                                    class="mt-3 p-3 bg-turquoise-50 border border-turquoise-300 rounded-lg text-left hidden">
                                     <div class="flex items-center space-x-2 text-turquoise-800 font-bold mb-1">
                                         <i data-lucide="flower" class="w-4 h-4 text-turquoise-600"></i>
                                         <span id="selectedTulipTitle" class="text-sm md:text-base"></span>
@@ -576,23 +630,30 @@
     </div>
 
     <script>
-        console.log("Versión 1.0.4");
 
+        console.log("Versión 1.1.0");
+
+        // Inicializar Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
-            // ==========================================
-            // ICONOS LUCIDE
-            // ==========================================
-            function refreshIcons() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+
+        function refreshIcons() {
+            setTimeout(() => {
                 if (typeof lucide !== 'undefined') {
                     lucide.createIcons();
                 }
-            }
+            }, 0);
+        }
 
+        // --- LÓGICA DEL REPRODUCTOR DE AUDIO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicialización de iconos Lucide
             refreshIcons();
 
-            // ==========================================
-            // REPRODUCTOR DE AUDIO
-            // ==========================================
+            // Elementos del reproductor
             const audioPlayer = document.getElementById('audioPlayer');
             const btnPlayPause = document.getElementById('btnPlayPause');
             const playPauseIcon = document.getElementById('playPauseIcon');
@@ -603,346 +664,332 @@
             const totalDurationText = document.getElementById('totalDurationText');
             const vinylRecord = document.getElementById('vinylRecord');
 
-            const startAt = 127.6;
             let isPlaying = false;
-            let hasStartedOnce = false;
-            const simulatedDuration = 225;
-            let simulatedCurrentTime = startAt;
+            let simulatedDuration = 225;
+            let simulatedCurrentTime = 127.6;
+            let simulationInterval = null;
 
-            function formatTime(seconds) {
-                if (!Number.isFinite(seconds) || seconds < 0) seconds = 0;
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${String(secs).padStart(2, '0')}`;
+            const startAt = 127.6; // 2:08 minutos
+            let hasStartedOnce = false;
+
+            function refreshIcons() {
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
             }
 
-            function updateTimeUI(current, duration) {
-                if (seekBar && duration > 0) {
-                    seekBar.value = (current / duration) * 100;
-                }
-                if (currentTimeText) currentTimeText.textContent = formatTime(current);
-                if (totalDurationText && duration > 0) {
-                    totalDurationText.textContent = formatTime(duration);
-                }
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
             }
 
             function updatePlayPauseUI(playing) {
                 isPlaying = playing;
 
+                // Actualizar icono
                 if (playPauseIcon) {
-                    playPauseIcon.setAttribute('data-lucide', playing ? 'pause' : 'play');
+                    playPauseIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
                     refreshIcons();
                 }
 
-                if (vinylRecord) vinylRecord.classList.toggle('spinning', playing);
-
-                if (btnPlayPause) {
-                    btnPlayPause.setAttribute(
-                        'aria-label',
-                        playing ? 'Pausar canción' : 'Reproducir canción'
-                    );
+                // Controlar animación del vinilo
+                if (vinylRecord) {
+                    if (isPlaying) {
+                        vinylRecord.classList.add('spinning');
+                    } else {
+                        vinylRecord.classList.remove('spinning');
+                    }
                 }
             }
 
-            async function togglePlay() {
-                if (!audioPlayer) return;
-
-                if (isPlaying) {
-                    audioPlayer.pause();
-                    updatePlayPauseUI(false);
-                    return;
-                }
-
-                if (!hasStartedOnce) {
-                    if (Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                        audioPlayer.currentTime = Math.min(startAt, audioPlayer.duration);
-                    } else {
-                        simulatedCurrentTime = startAt;
-                        updateTimeUI(simulatedCurrentTime, simulatedDuration);
+            function startSimulation() {
+                if (simulationInterval) clearInterval(simulationInterval);
+                simulationInterval = setInterval(() => {
+                    if (isPlaying && (!audioPlayer || !audioPlayer.duration)) {
+                        simulatedCurrentTime++;
+                        if (simulatedCurrentTime > simulatedDuration) {
+                            simulatedCurrentTime = 0;
+                        }
+                        if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                     }
-                    hasStartedOnce = true;
-                }
+                }, 1000);
+            }
 
-                try {
-                    await audioPlayer.play();
-                    updatePlayPauseUI(true);
-                } catch (error) {
-                    console.warn('No se pudo reproducir el archivo de audio:', error);
+            function togglePlay() {
+                if (isPlaying) {
+                    if (audioPlayer) audioPlayer.pause();
                     updatePlayPauseUI(false);
+                    if (simulationInterval) clearInterval(simulationInterval);
+                } else {
+                    // Saltar al minuto 2:00 la primera vez
+                    if (!hasStartedOnce) {
+                        if (audioPlayer && audioPlayer.duration) {
+                            audioPlayer.currentTime = Math.min(startAt, audioPlayer.duration);
+                        } else {
+                            simulatedCurrentTime = startAt;
+                            if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                            if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
+                        }
+                        hasStartedOnce = true;
+                    }
+
+                    // Intentar reproducir el audio
+                    if (audioPlayer && audioPlayer.src) {
+                        const playPromise = audioPlayer.play();
+                        if (playPromise !== undefined) {
+                            playPromise
+                                .then(() => {
+                                    updatePlayPauseUI(true);
+                                })
+                                .catch(err => {
+                                    console.warn('Reproducción real bloqueada o fallida. Activando simulación:', err);
+                                    updatePlayPauseUI(true);
+                                    startSimulation();
+                                });
+                        } else {
+                            updatePlayPauseUI(true);
+                        }
+                    } else {
+                        // Modo simulación directa si no hay archivo asignado al audio
+                        updatePlayPauseUI(true);
+                        startSimulation();
+                    }
                 }
             }
 
             function rewind() {
-                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+                if (audioPlayer && audioPlayer.duration) {
                     audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
                 } else {
                     simulatedCurrentTime = Math.max(0, simulatedCurrentTime - 10);
-                    updateTimeUI(simulatedCurrentTime, simulatedDuration);
+                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                 }
             }
 
             function forward() {
-                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+                if (audioPlayer && audioPlayer.duration) {
                     audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
                 } else {
                     simulatedCurrentTime = Math.min(simulatedDuration, simulatedCurrentTime + 10);
-                    updateTimeUI(simulatedCurrentTime, simulatedDuration);
+                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
+                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                 }
             }
 
+            // Event Listeners con verificación
             if (btnPlayPause) btnPlayPause.addEventListener('click', togglePlay);
             if (btnRewind) btnRewind.addEventListener('click', rewind);
             if (btnForward) btnForward.addEventListener('click', forward);
 
             if (seekBar) {
-                seekBar.addEventListener('input', (event) => {
-                    const value = Number(event.target.value);
-
-                    if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                        audioPlayer.currentTime = (value / 100) * audioPlayer.duration;
+                seekBar.addEventListener('input', (e) => {
+                    const val = e.target.value;
+                    if (audioPlayer && audioPlayer.duration) {
+                        audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
                     } else {
-                        simulatedCurrentTime = (value / 100) * simulatedDuration;
-                        updateTimeUI(simulatedCurrentTime, simulatedDuration);
+                        simulatedCurrentTime = (val / 100) * simulatedDuration;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
                     }
                 });
             }
 
             if (audioPlayer) {
-                audioPlayer.addEventListener('loadedmetadata', () => {
-                    updateTimeUI(audioPlayer.currentTime || 0, audioPlayer.duration);
-                });
-
                 audioPlayer.addEventListener('timeupdate', () => {
-                    if (Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
-                        updateTimeUI(audioPlayer.currentTime, audioPlayer.duration);
-                    }
-                });
-
-                audioPlayer.addEventListener('play', () => updatePlayPauseUI(true));
-                audioPlayer.addEventListener('pause', () => updatePlayPauseUI(false));
-                audioPlayer.addEventListener('ended', () => updatePlayPauseUI(false));
-                audioPlayer.addEventListener('error', () => {
-                    updatePlayPauseUI(false);
-                    console.warn('Comprueba que src/assets/song.mp3 exista y sea accesible.');
-                });
-            }
-
-            // ==========================================
-            // REFERENCIAS DE LOS MODALES
-            // ==========================================
-            const phraseModal = document.getElementById('phraseModal');
-            const flowersModal = document.getElementById('flowersModal');
-
-            const btnOpenPhrase = document.getElementById('btnOpenPhrase');
-            const btnClosePhrase = document.getElementById('btnClosePhrase');
-            const btnOpenFlowers = document.getElementById('btnOpenFlowers');
-            const btnCloseFlowers = document.getElementById('btnCloseFlowers');
-
-            const bouquetWrapper = document.getElementById('bouquetWrapper');
-            const tulipMessageBox = document.getElementById('tulipMessageBox');
-            const selectedTulipTitle = document.getElementById('selectedTulipTitle');
-            const selectedTulipText = document.getElementById('selectedTulipText');
-
-            let activeModal = null;
-            let previousFocusedElement = null;
-            let previousBodyOverflow = '';
-
-            function getDialog(modal) {
-                return modal ? modal.querySelector('[role="dialog"]') : null;
-            }
-
-            function getFocusableElements(modal) {
-                if (!modal) return [];
-
-                return Array.from(modal.querySelectorAll(
-                    'button:not([disabled]), a[href], input:not([disabled]), ' +
-                    'select:not([disabled]), textarea:not([disabled]), ' +
-                    '[tabindex]:not([tabindex="-1"])'
-                )).filter(element => element.getClientRects().length > 0);
-            }
-
-            function openModal(modal, trigger) {
-                if (!modal) return;
-
-                if (activeModal && activeModal !== modal) {
-                    activeModal.classList.add('hidden');
-                    activeModal.setAttribute('aria-hidden', 'true');
-                } else if (!activeModal) {
-                    previousBodyOverflow = document.body.style.overflow;
-                }
-
-                previousFocusedElement = trigger || document.activeElement;
-                activeModal = modal;
-
-                modal.classList.remove('hidden');
-                modal.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-
-                refreshIcons();
-
-                requestAnimationFrame(() => {
-                    if (!activeModal || activeModal !== modal) return;
-
-                    const focusable = getFocusableElements(modal);
-                    const dialog = getDialog(modal);
-
-                    if (focusable.length) {
-                        focusable[0].focus();
-                    } else if (dialog) {
-                        dialog.focus();
+                    if (audioPlayer.duration) {
+                        if (seekBar) seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                        if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
+                        if (totalDurationText) totalDurationText.textContent = formatTime(audioPlayer.duration);
                     }
                 });
             }
+        });
 
-            function closeModal(modal) {
-                if (!modal || modal.classList.contains('hidden')) return;
 
-                modal.classList.add('hidden');
-                modal.setAttribute('aria-hidden', 'true');
+        // --- LETRA SINCRONIZADA ---
+        (() => {
+            const lyricsAudio = document.getElementById('audioPlayer');
+            const lyricsList = document.getElementById('lyricsList');
+            const lyricsCurrentTime = document.getElementById('lyricsCurrentTime');
 
-                if (activeModal === modal) {
-                    activeModal = null;
-                    document.body.style.overflow = previousBodyOverflow;
+            if (!lyricsAudio || !lyricsList) return;
 
-                    if (previousFocusedElement &&
-                        typeof previousFocusedElement.focus === 'function' &&
-                        document.contains(previousFocusedElement)) {
-                        previousFocusedElement.focus();
+            // Tiempos aproximados en segundos para esta versión del audio.
+            // Si alguna frase cae un poco antes/después, solo hay que ajustar su valor "time".
+            const lyrics = [
+                { time: 0, text: "Siento un vacío muy frío por dentro, mi amor" },
+                { time: 4, text: "Cuando te fuiste, te robaste mi corazón" },
+                { time: 8, text: "Me quedé loco de tanto pensar y pensar" },
+                { time: 12, text: "Me iré al infierno, pero me tengo que vengar" },
+                { time: 29, text: "Siento un vacío muy frío por dentro, mi amor" },
+                { time: 33, text: "Cuando te fuiste, te robaste mi corazón" },
+                { time: 37, text: "Me quedé loco de tanto pensar y pensar" },
+                { time: 41, text: "Me iré al infierno, pero me tengo que vengar" },
+                { time: 45, text: "Quiero manchar el vestido blanco de rojo" },
+                { time: 49, text: "Sé que el altar de Dios es santo, pero, mi amor" },
+                { time: 53, text: "Cien invitados, y todos tendrán que mirar" },
+                { time: 57, text: "Que nuestro amor va al más allá" },
+                { time: 61, text: "Quiero que bailemos juntos" },
+                { time: 64, text: "En el cielo o el infierno, pero sin ese puto" },
+                { time: 68, text: "El que te ha apartado todo este tiempo de mí" },
+                { time: 72, text: "Al inconsciente que hizo que no fueras pa mí" },
+                { time: 76, text: "Danza, una danza eterna" },
+                { time: 79, text: "Pero me voy contigo, pero nos vamos juntos" },
+                { time: 83, text: "Llevo tres noches malditas sin poder dormir" },
+                { time: 87, text: "Solo pensando y pensando que eres para mí" },
+                { time: 91, text: "¡Uh!" },
+                { time: 94, text: "Y me despido de ti para siempre, chiquitita" },
+                { time: 98, text: "Ahí le va pa todos los que traen el corazón roto, ¡uh!" },
+                { time: 103, text: "Y su compa Oscar Maydon" },
+                { time: 106, text: "Y Fuer-za Regida" },
+                { time: 111, text: "Camino lento, me duele la respiración" },
+                { time: 115, text: "A mil por hora, latidos de mi corazón" },
+                { time: 119, text: "En el pasillo me vienen recuerdos, flashbacks" },
+                { time: 123, text: "Prometimos que los dos iríamos al altar" },
+                { time: 127, text: "Te quitó el velo, aceptaste y luego te besó" },
+                { time: 131, text: "Ya has consumado los votos sagrados, mi amor" },
+                { time: 135, text: "Un frío muy intenso se llevó todo mi ser" },
+                { time: 139, text: "Ya no hay razón pa estar de pie" },
+                { time: 143, text: "Quiero que bailemos juntos" },
+                { time: 146, text: "En el cielo o el infierno, pero sin ese puto" },
+                { time: 150, text: "Al que te ha apartado todo este tiempo de mí" },
+                { time: 154, text: "Al inconsciente que hizo que no fueras pa mí" },
+                { time: 158, text: "Danza, una danza eterna" },
+                { time: 161, text: "Pero me voy contigo, pero nos vamos juntos" },
+                { time: 165, text: "Llevo tres noches malditas sin poder dormir" },
+                { time: 169, text: "Solo pensando y pensando que eras para mí" },
+                { time: 178, text: "Miro cómo brillan tus ojos" },
+                { time: 182, text: "Me resigno a perderte, y esta vez para siempre" },
+                { time: 187, text: "Me arrepentí de quitarte tu felicidad" },
+                { time: 192, text: "Te dejaré, una familia puedas comenzar" },
+                { time: 197, text: "Me despido, me despido pa siempre" },
+                { time: 202, text: "Y te deseo suerte y bendigo mi muerte" },
+                { time: 207, text: "Se la dedico al amor que nunca funcionó" },
+                { time: 213, text: "A la persona que roto tiene el corazón" }
+            ];
+
+            const formatLyricsTime = seconds => {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${String(secs).padStart(2, '0')}`;
+            };
+
+            lyrics.forEach((line, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'lyrics-line';
+                button.textContent = line.text;
+                button.dataset.index = String(index);
+                button.setAttribute('aria-label', `Ir a ${formatLyricsTime(line.time)}: ${line.text}`);
+                button.addEventListener('click', () => {
+                    lyricsAudio.currentTime = line.time;
+                    if (lyricsAudio.paused) {
+                        // Solo mueve la posición; no inicia la reproducción automáticamente.
+                        updateActiveLyric();
                     }
-
-                    previousFocusedElement = null;
-                }
-            }
-
-            // Modal: frase del día
-            if (btnOpenPhrase) {
-                btnOpenPhrase.addEventListener('click', () => {
-                    openModal(phraseModal, btnOpenPhrase);
                 });
-            }
-
-            if (btnClosePhrase) {
-                btnClosePhrase.addEventListener('click', () => closeModal(phraseModal));
-            }
-
-            // Modal: ramo de tulipanes
-            function openFlowersModal() {
-                if (bouquetWrapper) bouquetWrapper.classList.remove('bouquet-open');
-                if (tulipMessageBox) tulipMessageBox.classList.add('hidden');
-                if (selectedTulipTitle) selectedTulipTitle.textContent = '';
-                if (selectedTulipText) selectedTulipText.textContent = '';
-
-                // Reiniciar animaciones de los elementos animados.
-                if (flowersModal) {
-                    const animatedElements = flowersModal.querySelectorAll('.grow-stem, .bloom-item');
-
-                    animatedElements.forEach(element => {
-                        element.style.animation = 'none';
-                    });
-
-                    void flowersModal.offsetWidth;
-
-                    animatedElements.forEach(element => {
-                        element.style.animation = '';
-                    });
-                }
-
-                openModal(flowersModal, btnOpenFlowers);
-            }
-
-            if (btnOpenFlowers) {
-                btnOpenFlowers.addEventListener('click', openFlowersModal);
-            }
-
-            if (btnCloseFlowers) {
-                btnCloseFlowers.addEventListener('click', () => closeModal(flowersModal));
-            }
-
-            // Cerrar al hacer clic en el fondo, no en el contenido.
-            [phraseModal, flowersModal].forEach(modal => {
-                if (!modal) return;
-
-                modal.addEventListener('click', event => {
-                    if (event.target === modal) closeModal(modal);
-                });
+                lyricsList.appendChild(button);
             });
 
-            // Escape para cerrar y Tab para mantener el foco dentro del diálogo.
-            document.addEventListener('keydown', event => {
-                if (!activeModal) return;
+            const lyricButtons = Array.from(lyricsList.querySelectorAll('.lyrics-line'));
+            let activeIndex = -1;
 
-                if (event.key === 'Escape') {
-                    event.preventDefault();
-                    closeModal(activeModal);
-                    return;
+            function updateActiveLyric() {
+                const now = lyricsAudio.currentTime || 0;
+                let nextIndex = -1;
+                for (let i = 0; i < lyrics.length; i++) {
+                    if (lyrics[i].time <= now) nextIndex = i;
+                    else break;
                 }
 
-                if (event.key === 'Tab') {
-                    const focusable = getFocusableElements(activeModal);
-                    const dialog = getDialog(activeModal);
+                if (lyricsCurrentTime) lyricsCurrentTime.textContent = formatLyricsTime(now);
+                if (nextIndex === activeIndex) return;
 
-                    if (!focusable.length) {
-                        event.preventDefault();
-                        if (dialog) dialog.focus();
-                        return;
-                    }
-
-                    const first = focusable[0];
-                    const last = focusable[focusable.length - 1];
-
-                    if (event.shiftKey && document.activeElement === first) {
-                        event.preventDefault();
-                        last.focus();
-                    } else if (!event.shiftKey && document.activeElement === last) {
-                        event.preventDefault();
-                        first.focus();
-                    }
-                }
-            });
-
-            // ==========================================
-            // INTERACCIÓN CON LOS TULIPANES
-            // ==========================================
-            document.querySelectorAll('.tulip-flower').forEach(tulip => {
-                tulip.setAttribute('tabindex', '0');
-                tulip.setAttribute('role', 'button');
-
-                const initialTitle = tulip.getAttribute('data-title') || 'Tulipán';
-                tulip.setAttribute('aria-label', `Mostrar mensaje: ${initialTitle}`);
-
-                function selectTulip() {
-                    const title = tulip.getAttribute('data-title') || 'Tulipán';
-                    const text = tulip.getAttribute('data-text') || '';
-
-                    if (bouquetWrapper) bouquetWrapper.classList.add('bouquet-open');
-                    if (selectedTulipTitle) selectedTulipTitle.textContent = title;
-                    if (selectedTulipText) selectedTulipText.textContent = text;
-                    if (tulipMessageBox) tulipMessageBox.classList.remove('hidden');
-
-                    refreshIcons();
-                }
-
-                tulip.addEventListener('click', selectTulip);
-
-                tulip.addEventListener('keydown', event => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        selectTulip();
-                    }
+                activeIndex = nextIndex;
+                lyricButtons.forEach((button, index) => {
+                    button.classList.toggle('is-active', index === activeIndex);
+                    button.classList.toggle('is-past', index < activeIndex);
+                    if (index === activeIndex) button.setAttribute('aria-current', 'true');
+                    else button.removeAttribute('aria-current');
                 });
-            });
 
-            // Estado inicial accesible y cerrado.
-            [phraseModal, flowersModal].forEach(modal => {
-                if (modal) {
-                    modal.classList.add('hidden');
-                    modal.setAttribute('aria-hidden', 'true');
+                if (activeIndex >= 0 && lyricButtons[activeIndex]) {
+                    lyricButtons[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
-            });
+            }
 
-            document.body.style.overflow = '';
+            lyricsAudio.addEventListener('timeupdate', updateActiveLyric);
+            lyricsAudio.addEventListener('seeked', updateActiveLyric);
+            lyricsAudio.addEventListener('loadedmetadata', updateActiveLyric);
+            updateActiveLyric();
+        })();
+
+        // --- LÓGICA DE MODALES ---
+        const phraseModal = document.getElementById('phraseModal');
+        const flowersModal = document.getElementById('flowersModal');
+        const btnOpenPhrase = document.getElementById('btnOpenPhrase');
+        const btnClosePhrase = document.getElementById('btnClosePhrase');
+        const btnOpenFlowers = document.getElementById('btnOpenFlowers');
+        const btnCloseFlowers = document.getElementById('btnCloseFlowers');
+
+        const bouquetWrapper = document.getElementById('bouquetWrapper');
+        const tulipMessageBox = document.getElementById('tulipMessageBox');
+        const selectedTulipTitle = document.getElementById('selectedTulipTitle');
+        const selectedTulipText = document.getElementById('selectedTulipText');
+
+        function openPhraseModal() {
+            phraseModal.classList.remove('hidden');
             refreshIcons();
+        }
+
+        function closePhraseModal() {
+            phraseModal.classList.add('hidden');
+        }
+
+        function openFlowersModal() {
+            flowersModal.classList.remove('hidden');
+            bouquetWrapper.classList.remove('bouquet-open');
+            tulipMessageBox.classList.add('hidden');
+            selectedTulipTitle.textContent = '';
+            selectedTulipText.textContent = '';
+            refreshIcons();
+        }
+
+        function closeFlowersModal() {
+            flowersModal.classList.add('hidden');
+        }
+
+        btnOpenPhrase.addEventListener('click', openPhraseModal);
+        btnClosePhrase.addEventListener('click', closePhraseModal);
+        btnOpenFlowers.addEventListener('click', openFlowersModal);
+        btnCloseFlowers.addEventListener('click', closeFlowersModal);
+
+        // Cerrar al hacer clic en el backdrop
+        phraseModal.addEventListener('click', (e) => {
+            if (e.target === phraseModal) closePhraseModal();
+        });
+
+        flowersModal.addEventListener('click', (e) => {
+            if (e.target === flowersModal) closeFlowersModal();
+        });
+
+        // Clic en los tulipanes
+        const tulips = document.querySelectorAll('.tulip-flower');
+        tulips.forEach(tulip => {
+            tulip.addEventListener('click', () => {
+                const title = tulip.getAttribute('data-title');
+                const text = tulip.getAttribute('data-text');
+
+                bouquetWrapper.classList.add('bouquet-open');
+                selectedTulipTitle.textContent = title;
+                selectedTulipText.textContent = text;
+                tulipMessageBox.classList.remove('hidden');
+                refreshIcons();
+            });
         });
     </script>
 </body>
+
 </html>
