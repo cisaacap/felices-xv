@@ -256,27 +256,25 @@
                     <div class="quadruple-border-inner-1 rounded-lg">
                         <div class="quadruple-border-inner-2 rounded-lg">
                             <div class="quadruple-border-content p-5 md:p-6 rounded-lg flex flex-col items-center">
-
-                                <!-- Contenedor del Disco de Vinilo -->
-                                <!-- Cambia las clases w-40 h-40 md:w-48 md:h-48 por medidas más grandes -->
+                                <!-- Contenedor del Disco de Vinilo (Tamaño original) -->
                                 <div
-                                    class="relative w-64 h-64 md:w-80 md:h-80 mb-6 flex items-center justify-center mx-auto">
+                                    class="relative w-40 h-40 md:w-48 md:h-48 mb-4 flex items-center justify-center mx-auto">
                                     <div id="vinylRecord"
                                         class="vinyl-record w-full h-full rounded-full shadow-2xl relative flex items-center justify-center">
                                         <!-- Surcos del Vinilo -->
                                         <div
-                                            class="vinyl-groove w-3/4 h-3/4 rounded-full flex items-center justify-center">
+                                            class="vinyl-groove w-11/12 h-11/12 rounded-full flex items-center justify-center">
                                             <div
-                                                class="vinyl-groove w-3/4 h-3/4 rounded-full flex items-center justify-center">
-                                                <!-- Etiqueta central (Portada) -->
+                                                class="vinyl-groove w-10/12 h-10/12 rounded-full flex items-center justify-center">
+                                                <!-- Etiqueta central (Imagen más grande: w-2/3 h-2/3) -->
                                                 <div
-                                                    class="vinyl-center w-1/2 h-1/2 rounded-full overflow-hidden border-2 border-turquoise-600 relative flex items-center justify-center shadow-inner">
+                                                    class="vinyl-center w-2/3 h-2/3 rounded-full overflow-hidden border-2 border-turquoise-600 relative flex items-center justify-center shadow-inner">
                                                     <img id="albumCover" src="src/assets/song-cover.jpg"
                                                         onerror="this.onerror=null; this.src='https://placehold.co/400x400/00a896/ffffff?text=Portada+de+Cancion';"
                                                         alt="Portada de la Canción" class="w-full h-full object-cover">
-                                                    <!-- Agujero central -->
+                                                    <!-- Agujero central del vinilo -->
                                                     <div
-                                                        class="absolute w-4 h-4 md:w-5 md:h-5 bg-gray-900 border border-gray-600 rounded-full z-10">
+                                                        class="absolute w-3 h-3 md:w-4 md:h-4 bg-gray-900 border border-gray-600 rounded-full z-10">
                                                     </div>
                                                 </div>
                                             </div>
