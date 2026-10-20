@@ -208,47 +208,39 @@
             animation: spinVinyl 3s linear infinite !important;
         }
 
-        /* Letras sincronizadas */
-        .lyrics-list {
-            max-height: 280px;
-            overflow-y: auto;
-            padding: 4px 6px 4px 0;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #5eead4 #f0fdfa;
-        }
-        .lyrics-line {
-            display: block;
-            width: 100%;
-            border: 0;
-            border-radius: 8px;
-            background: transparent;
-            color: #64748b;
-            text-align: center;
-            padding: 9px 10px;
-            margin: 2px 0;
-            font: inherit;
-            font-size: .92rem;
+        /* Letras compactas: tres líneas debajo de los controles */
+        .lyrics-compact-line {
+            min-height: 1.55em;
+            margin: 0;
+            padding: 4px 6px;
             line-height: 1.45;
-            cursor: pointer;
-            transition: color .2s ease, background-color .2s ease, transform .2s ease;
+            text-align: center;
+            overflow-wrap: anywhere;
+            transition: opacity .2s ease, color .2s ease, transform .2s ease;
         }
-        .lyrics-line:hover {
-            background: #f0fdfa;
-            color: #05668d;
-        }
-        .lyrics-line.is-active {
-            background: #ccfbf1;
-            color: #05668d;
-            font-weight: 700;
-            transform: scale(1.01);
-        }
-        .lyrics-line.is-past {
+        .lyrics-previous,
+        .lyrics-next {
             color: #94a3b8;
+            font-size: .82rem;
+            font-weight: 400;
+            opacity: .82;
+        }
+        .lyrics-current {
+            color: #05668d;
+            font-size: 1rem;
+            font-weight: 700;
+            min-height: 1.8em;
+        }
+        .lyrics-compact-line:empty {
+            visibility: hidden;
+        }
+        @media (max-width: 480px) {
+            .lyrics-previous, .lyrics-next { font-size: .76rem; }
+            .lyrics-current { font-size: .92rem; }
+            #lyricsCompact { padding-left: 2px; padding-right: 2px; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .lyrics-list { scroll-behavior: auto; }
-            .lyrics-line { transition: none; }
+            .lyrics-compact-line { transition: none; }
         }
 
     </style>
@@ -375,26 +367,12 @@
             </section>
 
 
-            <!-- Letras sincronizadas -->
-            <section id="lyricsSection" class="w-full max-w-lg mt-5">
-                <div class="quadruple-border-box rounded-xl">
-                    <div class="quadruple-border-inner-1 rounded-lg">
-                        <div class="quadruple-border-inner-2 rounded-lg">
-                            <div class="quadruple-border-content p-4 md:p-5 rounded-lg">
-                                <div class="flex items-center justify-between gap-3 mb-3">
-                                    <div class="flex items-center gap-2 text-turquoise-800 font-semibold">
-                                        <i data-lucide="music-2" class="w-5 h-5 text-turquoise-600"></i>
-                                        <h2 class="text-lg">Letra sincronizada</h2>
-                                    </div>
-                                    <span id="lyricsCurrentTime" class="text-xs font-mono text-slate-500">0:00</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mb-3">La letra avanza junto con la canción. Puedes tocar una línea para saltar a esa parte.</p>
-                                <div id="lyricsList" class="lyrics-list" aria-live="polite" aria-label="Letra sincronizada"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <!-- Letras sincronizadas: anterior, actual y siguiente -->
+            <div id="lyricsCompact" class="w-full max-w-lg mt-3 px-3 py-2 text-center" aria-live="polite" aria-label="Letra sincronizada">
+                <p id="lyricPrevious" class="lyrics-compact-line lyrics-previous"></p>
+                <p id="lyricCurrent" class="lyrics-compact-line lyrics-current"></p>
+                <p id="lyricNext" class="lyrics-compact-line lyrics-next"></p>
+            </div>
 
             <!-- Action Buttons -->
             <section class="w-full max-w-lg">
@@ -631,7 +609,7 @@
 
     <script>
 
-        console.log("Versión 1.1.0");
+        console.log("Versión 1.0.3");
 
         // Inicializar Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
@@ -808,122 +786,85 @@
         });
 
 
-        // --- LETRA SINCRONIZADA ---
+        // --- LETRA SINCRONIZADA EN TRES LÍNEAS ---
         (() => {
-            const lyricsAudio = document.getElementById('audioPlayer');
-            const lyricsList = document.getElementById('lyricsList');
-            const lyricsCurrentTime = document.getElementById('lyricsCurrentTime');
+            const audio = document.getElementById('audioPlayer');
+            const previousEl = document.getElementById('lyricPrevious');
+            const currentEl = document.getElementById('lyricCurrent');
+            const nextEl = document.getElementById('lyricNext');
+            if (!audio || !previousEl || !currentEl || !nextEl) return;
 
-            if (!lyricsAudio || !lyricsList) return;
-
-            // Tiempos aproximados en segundos para esta versión del audio.
-            // Si alguna frase cae un poco antes/después, solo hay que ajustar su valor "time".
+            // Tiempos proporcionados por el usuario (minutos:segundos.centésimas).
             const lyrics = [
-                { time: 0, text: "Siento un vacío muy frío por dentro, mi amor" },
-                { time: 4, text: "Cuando te fuiste, te robaste mi corazón" },
-                { time: 8, text: "Me quedé loco de tanto pensar y pensar" },
-                { time: 12, text: "Me iré al infierno, pero me tengo que vengar" },
-                { time: 29, text: "Siento un vacío muy frío por dentro, mi amor" },
-                { time: 33, text: "Cuando te fuiste, te robaste mi corazón" },
-                { time: 37, text: "Me quedé loco de tanto pensar y pensar" },
-                { time: 41, text: "Me iré al infierno, pero me tengo que vengar" },
-                { time: 45, text: "Quiero manchar el vestido blanco de rojo" },
-                { time: 49, text: "Sé que el altar de Dios es santo, pero, mi amor" },
-                { time: 53, text: "Cien invitados, y todos tendrán que mirar" },
-                { time: 57, text: "Que nuestro amor va al más allá" },
-                { time: 61, text: "Quiero que bailemos juntos" },
-                { time: 64, text: "En el cielo o el infierno, pero sin ese puto" },
-                { time: 68, text: "El que te ha apartado todo este tiempo de mí" },
-                { time: 72, text: "Al inconsciente que hizo que no fueras pa mí" },
-                { time: 76, text: "Danza, una danza eterna" },
-                { time: 79, text: "Pero me voy contigo, pero nos vamos juntos" },
-                { time: 83, text: "Llevo tres noches malditas sin poder dormir" },
-                { time: 87, text: "Solo pensando y pensando que eres para mí" },
-                { time: 91, text: "¡Uh!" },
-                { time: 94, text: "Y me despido de ti para siempre, chiquitita" },
-                { time: 98, text: "Ahí le va pa todos los que traen el corazón roto, ¡uh!" },
-                { time: 103, text: "Y su compa Oscar Maydon" },
-                { time: 106, text: "Y Fuer-za Regida" },
-                { time: 111, text: "Camino lento, me duele la respiración" },
-                { time: 115, text: "A mil por hora, latidos de mi corazón" },
-                { time: 119, text: "En el pasillo me vienen recuerdos, flashbacks" },
-                { time: 123, text: "Prometimos que los dos iríamos al altar" },
-                { time: 127, text: "Te quitó el velo, aceptaste y luego te besó" },
-                { time: 131, text: "Ya has consumado los votos sagrados, mi amor" },
-                { time: 135, text: "Un frío muy intenso se llevó todo mi ser" },
-                { time: 139, text: "Ya no hay razón pa estar de pie" },
-                { time: 143, text: "Quiero que bailemos juntos" },
-                { time: 146, text: "En el cielo o el infierno, pero sin ese puto" },
-                { time: 150, text: "Al que te ha apartado todo este tiempo de mí" },
-                { time: 154, text: "Al inconsciente que hizo que no fueras pa mí" },
-                { time: 158, text: "Danza, una danza eterna" },
-                { time: 161, text: "Pero me voy contigo, pero nos vamos juntos" },
-                { time: 165, text: "Llevo tres noches malditas sin poder dormir" },
-                { time: 169, text: "Solo pensando y pensando que eras para mí" },
-                { time: 178, text: "Miro cómo brillan tus ojos" },
-                { time: 182, text: "Me resigno a perderte, y esta vez para siempre" },
-                { time: 187, text: "Me arrepentí de quitarte tu felicidad" },
-                { time: 192, text: "Te dejaré, una familia puedas comenzar" },
-                { time: 197, text: "Me despido, me despido pa siempre" },
-                { time: 202, text: "Y te deseo suerte y bendigo mi muerte" },
-                { time: 207, text: "Se la dedico al amor que nunca funcionó" },
-                { time: 213, text: "A la persona que roto tiene el corazón" }
+                { time: 3.42, text: "Siento un vacío muy frío por dentro, mi amor" },
+                { time: 44.26, text: "Cuando te fuiste, te robaste mi corazón" },
+                { time: 47.46, text: "Me quedé loco de tanto pensar y pensar" },
+                { time: 50.68, text: "Me iré al infierno, pero me tengo que vengar" },
+                { time: 53.78, text: "Quiero manchar el vestido blanco de rojo" },
+                { time: 57.00, text: "Sé que el altar de Dios es santo, pero, mi amor" },
+                { time: 60.16, text: "Cien invitados y todos tendrán que mirar" },
+                { time: 63.36, text: "Que nuestro amor va al más allá" },
+                { time: 67.06, text: "Quiero que bailemos juntos" },
+                { time: 69.50, text: "En el cielo o el infierno, pero sin ese puto" },
+                { time: 72.96, text: "El que te ha apartado todo este tiempo de mí" },
+                { time: 76.10, text: "Al inconsciente que hizo que no fueras pa' mí" },
+                { time: 79.78, text: "Danza, una danza eterna" },
+                { time: 82.26, text: "Pero me voy contigo, pero nos vamos juntos" },
+                { time: 85.68, text: "Llevo tres noches malditas sin poder dormir" },
+                { time: 88.88, text: "Solo pensando y pensando que eres para mí" },
+                { time: 97.80, text: "¡Uh!" },
+                { time: 97.96, text: "Me despido de ti para siempre, chiquitita" },
+                { time: 103.22, text: "Ahí le va para todos que traen el corazón roto" },
+                { time: 106.38, text: "¡Uh!" },
+                { time: 107.70, text: "Y su compa Óscar Maydon" },
+                { time: 113.32, text: "Fuerza Regida" },
+                { time: 119.14, text: "Camino lento, me duele la respiración" },
+                { time: 122.40, text: "A mil por hora latidos de mi corazón" },
+                { time: 125.52, text: "En el pasillo, me vienen recuerdos, flashbacks" },
+                { time: 128.68, text: "Prometimos que los dos iríamos al altar" },
+                { time: 131.84, text: "Te quito el velo, aceptaste y luego te beso" },
+                { time: 135.00, text: "Ya has consumado los votos sagrados, mi amor" },
+                { time: 138.14, text: "Un frío muy intenso se llevó todo mi ser" },
+                { time: 141.42, text: "Ya no hay razón pa' estar de pie" },
+                { time: 145.10, text: "Quiero que bailemos juntos" },
+                { time: 147.52, text: "En el cielo o el infierno, pero sin ese puto" },
+                { time: 151.02, text: "El que te ha apartado todo este tiempo de mí" },
+                { time: 154.22, text: "Al inconsciente que hizo que no fueras pa' mí" },
+                { time: 157.84, text: "Danza, una danza eterna" },
+                { time: 160.24, text: "Pero me voy contigo, pero nos vamos juntos" },
+                { time: 163.74, text: "Llevo tres noches malditas sin poder dormir" },
+                { time: 166.94, text: "Solo pensando y pensando que eras para mí" },
+                { time: 170.68, text: "Miro como brillan tus ojos" },
+                { time: 172.98, text: "Me resigno perderte y, esta vez, para siempre" },
+                { time: 176.22, text: "Me arrepentí de quitarte tu felicidad" },
+                { time: 179.68, text: "Te dejaré, una familia puedas comenzar" },
+                { time: 182.98, text: "Me despido, me despido pa' siempre" },
+                { time: 185.78, text: "Y te deseo suerte, y bendigo mi muerte" },
+                { time: 189.22, text: "Se la dedico al amor que nunca funcionó" },
+                { time: 192.46, text: "A la persona que roto tiene el corazón" }
             ];
 
-            const formatLyricsTime = seconds => {
-                const mins = Math.floor(seconds / 60);
-                const secs = Math.floor(seconds % 60);
-                return `${mins}:${String(secs).padStart(2, '0')}`;
-            };
-
-            lyrics.forEach((line, index) => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'lyrics-line';
-                button.textContent = line.text;
-                button.dataset.index = String(index);
-                button.setAttribute('aria-label', `Ir a ${formatLyricsTime(line.time)}: ${line.text}`);
-                button.addEventListener('click', () => {
-                    lyricsAudio.currentTime = line.time;
-                    if (lyricsAudio.paused) {
-                        // Solo mueve la posición; no inicia la reproducción automáticamente.
-                        updateActiveLyric();
-                    }
-                });
-                lyricsList.appendChild(button);
-            });
-
-            const lyricButtons = Array.from(lyricsList.querySelectorAll('.lyrics-line'));
-            let activeIndex = -1;
-
-            function updateActiveLyric() {
-                const now = lyricsAudio.currentTime || 0;
-                let nextIndex = -1;
+            function updateLyrics() {
+                const now = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+                let index = -1;
                 for (let i = 0; i < lyrics.length; i++) {
-                    if (lyrics[i].time <= now) nextIndex = i;
+                    if (lyrics[i].time <= now) index = i;
                     else break;
                 }
 
-                if (lyricsCurrentTime) lyricsCurrentTime.textContent = formatLyricsTime(now);
-                if (nextIndex === activeIndex) return;
+                previousEl.textContent = index > 0 ? lyrics[index - 1].text : '';
+                currentEl.textContent = index >= 0 ? lyrics[index].text : '';
+                nextEl.textContent = index + 1 < lyrics.length ? lyrics[index + 1].text : '';
 
-                activeIndex = nextIndex;
-                lyricButtons.forEach((button, index) => {
-                    button.classList.toggle('is-active', index === activeIndex);
-                    button.classList.toggle('is-past', index < activeIndex);
-                    if (index === activeIndex) button.setAttribute('aria-current', 'true');
-                    else button.removeAttribute('aria-current');
-                });
-
-                if (activeIndex >= 0 && lyricButtons[activeIndex]) {
-                    lyricButtons[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+                // Accesibilidad: anuncia la frase actual, no toda la lista.
+                currentEl.setAttribute('aria-label', index >= 0 ? `Frase actual: ${lyrics[index].text}` : 'La letra aún no ha comenzado');
             }
 
-            lyricsAudio.addEventListener('timeupdate', updateActiveLyric);
-            lyricsAudio.addEventListener('seeked', updateActiveLyric);
-            lyricsAudio.addEventListener('loadedmetadata', updateActiveLyric);
-            updateActiveLyric();
+            audio.addEventListener('timeupdate', updateLyrics);
+            audio.addEventListener('seeked', updateLyrics);
+            audio.addEventListener('loadedmetadata', updateLyrics);
+            audio.addEventListener('play', updateLyrics);
+            updateLyrics();
         })();
 
         // --- LÓGICA DE MODALES ---
