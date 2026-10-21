@@ -237,7 +237,7 @@
         @media (max-width: 480px) {
             .lyrics-previous, .lyrics-next { font-size: .76rem; }
             .lyrics-current { font-size: .92rem; }
-            #lyricsCompact { padding-left: 2px; padding-right: 2px; }
+            #lyricsCompact { width: 100%; max-width: 100%; box-sizing: border-box; margin-top: 1rem; padding-left: 0.75rem; padding-right: 0.75rem; }
         }
         @media (prefers-reduced-motion: reduce) {
             .lyrics-compact-line { transition: none; }
@@ -358,6 +358,13 @@
                                     </button>
                                 </div>
 
+                                <!-- Letras sincronizadas dentro del recuadro del reproductor -->
+                                <div id="lyricsCompact" class="w-full mt-5 px-3 py-2 text-center box-border" aria-live="polite" aria-label="Letra sincronizada">
+                                    <p id="lyricPrevious" class="lyrics-compact-line lyrics-previous"></p>
+                                    <p id="lyricCurrent" class="lyrics-compact-line lyrics-current"></p>
+                                    <p id="lyricNext" class="lyrics-compact-line lyrics-next"></p>
+                                </div>
+
                                 <!-- Hidden HTML5 Audio Element -->
                                 <audio id="audioPlayer" src="src/assets/song.mp3" preload="metadata"></audio>
                             </div>
@@ -366,13 +373,6 @@
                 </div>
             </section>
 
-
-            <!-- Letras sincronizadas: anterior, actual y siguiente -->
-            <div id="lyricsCompact" class="w-full max-w-lg mt-3 px-3 py-2 text-center" aria-live="polite" aria-label="Letra sincronizada">
-                <p id="lyricPrevious" class="lyrics-compact-line lyrics-previous"></p>
-                <p id="lyricCurrent" class="lyrics-compact-line lyrics-current"></p>
-                <p id="lyricNext" class="lyrics-compact-line lyrics-next"></p>
-            </div>
 
             <!-- Action Buttons -->
             <section class="w-full max-w-lg">
