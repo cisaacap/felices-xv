@@ -220,6 +220,39 @@
         .spinning {
             animation: spinVinyl 3s linear infinite !important;
         }
+
+        /* Letra sincronizada integrada en la tarjeta del reproductor */
+        #lyricsCompact {
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .lyrics-compact-line {
+            margin: 0;
+            padding: 0.2rem 0;
+            line-height: 1.45;
+            overflow-wrap: anywhere;
+            transition: opacity 0.2s ease, color 0.2s ease;
+        }
+        .lyrics-previous,
+        .lyrics-next {
+            min-height: 1.4em;
+            color: #64748b;
+            font-size: 0.82rem;
+            opacity: 0.78;
+        }
+        .lyrics-current {
+            min-height: 1.5em;
+            color: #05668d;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        @media (max-width: 420px) {
+            .lyrics-current { font-size: 0.92rem; }
+            .lyrics-previous, .lyrics-next { font-size: 0.76rem; }
+        }
+
     </style>
 </head>
 
@@ -333,6 +366,13 @@
                                         class="p-3 border-2 border-turquoise-600 rounded-full hover:bg-turquoise-50 text-turquoise-700 active:scale-95 transition">
                                         <i data-lucide="rotate-cw" class="w-5 h-5"></i>
                                     </button>
+                                </div>
+
+                                <!-- Letra sincronizada: tres líneas dentro del recuadro -->
+                                <div id="lyricsCompact" class="w-full mt-5 px-3 py-2 text-center box-border" aria-live="polite" aria-label="Letra sincronizada">
+                                    <p id="lyricPrevious" class="lyrics-compact-line lyrics-previous"></p>
+                                    <p id="lyricCurrent" class="lyrics-compact-line lyrics-current">La letra aparecerá aquí cuando comience la canción.</p>
+                                    <p id="lyricNext" class="lyrics-compact-line lyrics-next"></p>
                                 </div>
 
                                 <!-- Hidden HTML5 Audio Element -->
@@ -576,31 +616,17 @@
         </div>
     </div>
 
+    
     <script>
+        console.log("Versión 1.0.4 - modales y letra sincronizada");
 
-        console.log("Versión 1.0.3");
-
-        // Inicializar Lucide Icons
         document.addEventListener('DOMContentLoaded', () => {
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
-            }
-        });
-
-        function refreshIcons() {
-            setTimeout(() => {
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            }, 0);
-        }
-
-        // --- LÓGICA DEL REPRODUCTOR DE AUDIO ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Inicialización de iconos Lucide
+            const refreshIcons = () => {
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            };
             refreshIcons();
 
-            // Elementos del reproductor
+            // --- REPRODUCTOR ---
             const audioPlayer = document.getElementById('audioPlayer');
             const btnPlayPause = document.getElementById('btnPlayPause');
             const playPauseIcon = document.getElementById('playPauseIcon');
@@ -611,232 +637,219 @@
             const totalDurationText = document.getElementById('totalDurationText');
             const vinylRecord = document.getElementById('vinylRecord');
 
+            const lyricPrevious = document.getElementById('lyricPrevious');
+            const lyricCurrent = document.getElementById('lyricCurrent');
+            const lyricNext = document.getElementById('lyricNext');
+
+            const lyrics = [
+                { time: 11.48, text: "Eh, se-" },
+                { time: 15.60, text: "6 p.m. frente al río" },
+                { time: 19.80, text: "Viéndono' los corazone'" },
+                { time: 24.50, text: "Las hojas cayendo, preguntas sin contestacione'" },
+                { time: 31.04, text: "Mis sentimiento' cambian como estacione'" },
+                { time: 35.18, text: "Y aunque en PR todo el tiempo es verano" },
+                { time: 38.94, text: "Estoy pasando frío escuchando estas cancione'" },
+                { time: 43.56, text: "Pensando en ti, pero no te emocione'" },
+                { time: 47.96, text: "Porque no te vo'a escribir" },
+                { time: 52.40, text: "¿Cuál de los dos es quien más va a sufrir?" },
+                { time: 56.60, text: "No sé, pero ojalá que seas tú, ojalá que seas tú" },
+                { time: 62.62, text: "Pa' mí, que vas a ser tú" },
+                { time: 65.74, text: "Ya ni quiero competir" },
+                { time: 68.86, text: "Tú erе' linda, pero te gusta mentir" },
+                { time: 74.60, text: "Quédatе en tu viaje, que cuando aterrice, nadie va a aplaudir, ey" },
+                { time: 82.16, text: "Un día va' a ponerte vieja, va' a mirar pa'trá' y te va' a arrepentir" },
+                { time: 91.08, text: "De que lo más real que has tenido en tu vida lo dejaste ir" },
+                { time: 114.82, text: "Ey, ey" },
+                { time: 116.72, text: "Tú ere' un boquete en PR, por eso es que te esquivo" },
+                { time: 121.08, text: "Ya no hay más poema' pa' ti, este es el último que escribo" },
+                { time: 125.26, text: "A-A vece' vienen los flashback', tú y yo chingando agresivo" },
+                { time: 129.18, text: "Te-Te-Te iba a llevar pa' Maya, y no llegaste ni a Arecibo" },
+                { time: 134.38, text: "La invitación de la playita se venció" },
+                { time: 138.80, text: "Lo mejor de nosotro' nadie lo vio" },
+                { time: 142.95, text: "O quizá fue que la vida nos mintió" },
+                { time: 147.19, text: "Y tocó decir adió'" },
+                { time: 149.29, text: "Y vivir como vivía ante' de conocerte" },
+                { time: 153.67, text: "Viendo fotito' tuya', probando si soy fuerte" },
+                { time: 157.77, text: "Las ola' con el viento, los perro' y la suerte" },
+                { time: 161.75, text: "Tenía miedo 'e perderte, pero no má' que a la muerte" },
+                { time: 165.93, text: "Y estoy vivo" },
+                { time: 167.45, text: "Gracia' a Dio', estoy vivo, eso es lo que importa" },
+                { time: 171.15, text: "Yo me he enamora'o 515 vece', y contigo son 516" },
+                { time: 176.65, text: "So eso no es na' nuevo" },
+                { time: 178.33, text: "Toca seguir, pichar y olvidar" },
+                { time: 183.21, text: "Y má' alante si hay que enamorarno' de nuevo, nos volvemo' a enamorar" },
+                { time: 186.85, text: "Tú sabe' que a mí me gusta estar así, enamora'o" },
+                { time: 190.61, text: "Pero" },
+                { time: 191.63, text: "Ya ni quiero competir" },
+                { time: 194.77, text: "Tú ere' linda, pero te gusta mentir" },
+                { time: 200.51, text: "Quédatе en tu viaje, que cuando aterrice, nadie va a aplaudir, ey" },
+                { time: 208.09, text: "Un día va' a ponerte vieja, va' a mirar pa'trá' y te va' a arrepentir" },
+                { time: 216.97, text: "De que lo más real que has tenido en tu vida lo dejaste ir" }
+            ];
+
             let isPlaying = false;
-            let simulatedDuration = 225;
-            let simulatedCurrentTime = 127.6;
+            let hasStartedOnce = false;
+            const startAt = 127.6; // Conserva el inicio previo del reproductor: 2:08
+            let simulatedCurrentTime = startAt;
+            const simulatedDuration = 225;
             let simulationInterval = null;
 
-            const startAt = 127.6; // 2:08 minutos
-            let hasStartedOnce = false;
-
-            function refreshIcons() {
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            }
-
             function formatTime(seconds) {
+                seconds = Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
                 const mins = Math.floor(seconds / 60);
                 const secs = Math.floor(seconds % 60);
                 return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
             }
 
+            function updateLyrics(time) {
+                if (!lyricPrevious || !lyricCurrent || !lyricNext) return;
+                let currentIndex = -1;
+                for (let i = 0; i < lyrics.length; i++) {
+                    if (time >= lyrics[i].time) currentIndex = i;
+                    else break;
+                }
+                lyricPrevious.textContent = currentIndex > 0 ? lyrics[currentIndex - 1].text : '';
+                lyricCurrent.textContent = currentIndex >= 0 ? lyrics[currentIndex].text : '♪';
+                lyricNext.textContent = currentIndex + 1 < lyrics.length ? lyrics[currentIndex + 1].text : '';
+            }
+
             function updatePlayPauseUI(playing) {
                 isPlaying = playing;
-
-                // Actualizar icono
                 if (playPauseIcon) {
                     playPauseIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
                     refreshIcons();
                 }
-
-                // Controlar animación del vinilo
-                if (vinylRecord) {
-                    if (isPlaying) {
-                        vinylRecord.classList.add('spinning');
-                    } else {
-                        vinylRecord.classList.remove('spinning');
-                    }
-                }
+                if (vinylRecord) vinylRecord.classList.toggle('spinning', isPlaying);
             }
 
-            function startSimulation() {
-                if (simulationInterval) clearInterval(simulationInterval);
-                simulationInterval = setInterval(() => {
-                    if (isPlaying && (!audioPlayer || !audioPlayer.duration)) {
-                        simulatedCurrentTime++;
-                        if (simulatedCurrentTime > simulatedDuration) {
-                            simulatedCurrentTime = 0;
-                        }
-                        if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
-                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
-                    }
-                }, 1000);
+            function updateProgress(time) {
+                if (seekBar) {
+                    const duration = audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0
+                        ? audioPlayer.duration : simulatedDuration;
+                    seekBar.value = (Math.max(0, time) / duration) * 100;
+                }
+                if (currentTimeText) currentTimeText.textContent = formatTime(time);
+                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0 && totalDurationText) {
+                    totalDurationText.textContent = formatTime(audioPlayer.duration);
+                }
+                updateLyrics(time);
             }
 
             function togglePlay() {
-                if (isPlaying) {
-                    if (audioPlayer) audioPlayer.pause();
-                    updatePlayPauseUI(false);
-                    if (simulationInterval) clearInterval(simulationInterval);
-                } else {
-                    // Saltar al minuto 2:00 la primera vez
+                if (!audioPlayer) return;
+                if (audioPlayer.paused) {
                     if (!hasStartedOnce) {
-                        if (audioPlayer && audioPlayer.duration) {
-                            audioPlayer.currentTime = Math.min(startAt, audioPlayer.duration);
-                        } else {
-                            simulatedCurrentTime = startAt;
-                            if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
-                            if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
-                        }
-                        hasStartedOnce = true;
+                        const setStart = () => {
+                            if (!hasStartedOnce) {
+                                if (Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+                                    audioPlayer.currentTime = Math.min(startAt, audioPlayer.duration);
+                                }
+                                hasStartedOnce = true;
+                                updateProgress(audioPlayer.currentTime || startAt);
+                            }
+                        };
+                        if (audioPlayer.readyState >= 1) setStart();
+                        else audioPlayer.addEventListener('loadedmetadata', setStart, { once: true });
                     }
-
-                    // Intentar reproducir el audio
-                    if (audioPlayer && audioPlayer.src) {
-                        const playPromise = audioPlayer.play();
-                        if (playPromise !== undefined) {
-                            playPromise
-                                .then(() => {
-                                    updatePlayPauseUI(true);
-                                })
-                                .catch(err => {
-                                    console.warn('Reproducción real bloqueada o fallida. Activando simulación:', err);
-                                    updatePlayPauseUI(true);
-                                    startSimulation();
-                                });
-                        } else {
-                            updatePlayPauseUI(true);
-                        }
-                    } else {
-                        // Modo simulación directa si no hay archivo asignado al audio
-                        updatePlayPauseUI(true);
-                        startSimulation();
-                    }
-                }
-            }
-
-            function rewind() {
-                if (audioPlayer && audioPlayer.duration) {
-                    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+                    audioPlayer.play().then(() => updatePlayPauseUI(true)).catch(err => {
+                        console.warn('No se pudo reproducir el archivo de audio:', err);
+                        updatePlayPauseUI(false);
+                    });
                 } else {
-                    simulatedCurrentTime = Math.max(0, simulatedCurrentTime - 10);
-                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
-                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
+                    audioPlayer.pause();
+                    updatePlayPauseUI(false);
                 }
             }
 
-            function forward() {
-                if (audioPlayer && audioPlayer.duration) {
-                    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
-                } else {
-                    simulatedCurrentTime = Math.min(simulatedDuration, simulatedCurrentTime + 10);
-                    if (seekBar) seekBar.value = (simulatedCurrentTime / simulatedDuration) * 100;
-                    if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
-                }
-            }
-
-            // Event Listeners con verificación
             if (btnPlayPause) btnPlayPause.addEventListener('click', togglePlay);
-            if (btnRewind) btnRewind.addEventListener('click', rewind);
-            if (btnForward) btnForward.addEventListener('click', forward);
-
-            if (seekBar) {
-                seekBar.addEventListener('input', (e) => {
-                    const val = e.target.value;
-                    if (audioPlayer && audioPlayer.duration) {
-                        audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
-                    } else {
-                        simulatedCurrentTime = (val / 100) * simulatedDuration;
-                        if (currentTimeText) currentTimeText.textContent = formatTime(simulatedCurrentTime);
-                    }
-                });
-            }
-
+            if (btnRewind) btnRewind.addEventListener('click', () => {
+                if (audioPlayer && Number.isFinite(audioPlayer.duration)) {
+                    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+                }
+                updateProgress(audioPlayer ? audioPlayer.currentTime : 0);
+            });
+            if (btnForward) btnForward.addEventListener('click', () => {
+                if (audioPlayer && Number.isFinite(audioPlayer.duration)) {
+                    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 10);
+                }
+                updateProgress(audioPlayer ? audioPlayer.currentTime : 0);
+            });
+            if (seekBar) seekBar.addEventListener('input', (e) => {
+                if (audioPlayer && Number.isFinite(audioPlayer.duration) && audioPlayer.duration > 0) {
+                    audioPlayer.currentTime = (Number(e.target.value) / 100) * audioPlayer.duration;
+                }
+                updateProgress(audioPlayer && audioPlayer.currentTime ? audioPlayer.currentTime : 0);
+            });
             if (audioPlayer) {
-                audioPlayer.addEventListener('timeupdate', () => {
-                    if (audioPlayer.duration) {
-                        if (seekBar) seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                        if (currentTimeText) currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-                        if (totalDurationText) totalDurationText.textContent = formatTime(audioPlayer.duration);
-                    }
+                audioPlayer.addEventListener('loadedmetadata', () => {
+                    if (totalDurationText) totalDurationText.textContent = formatTime(audioPlayer.duration);
+                    updateProgress(audioPlayer.currentTime || 0);
                 });
+                audioPlayer.addEventListener('timeupdate', () => updateProgress(audioPlayer.currentTime));
+                audioPlayer.addEventListener('play', () => updatePlayPauseUI(true));
+                audioPlayer.addEventListener('pause', () => updatePlayPauseUI(false));
+                audioPlayer.addEventListener('ended', () => updatePlayPauseUI(false));
             }
-        });
+            updateProgress(0);
 
-        seekBar.addEventListener('input', (e) => {
-            const val = e.target.value;
-            if (audioPlayer.duration) {
-                audioPlayer.currentTime = (val / 100) * audioPlayer.duration;
-            } else {
-                simulatedCurrentTime = (val / 100) * simulatedDuration;
-                currentTimeText.textContent = formatTime(simulatedCurrentTime);
+            // --- MODALES ---
+            const phraseModal = document.getElementById('phraseModal');
+            const flowersModal = document.getElementById('flowersModal');
+            const btnOpenPhrase = document.getElementById('btnOpenPhrase');
+            const btnClosePhrase = document.getElementById('btnClosePhrase');
+            const btnOpenFlowers = document.getElementById('btnOpenFlowers');
+            const btnCloseFlowers = document.getElementById('btnCloseFlowers');
+
+            const bouquetWrapper = document.getElementById('bouquetWrapper');
+            const tulipMessageBox = document.getElementById('tulipMessageBox');
+            const selectedTulipTitle = document.getElementById('selectedTulipTitle');
+            const selectedTulipText = document.getElementById('selectedTulipText');
+
+            function openModal(modal) {
+                if (modal) {
+                    modal.classList.remove('hidden');
+                    refreshIcons();
+                }
             }
-        });
-
-        audioPlayer.addEventListener('timeupdate', () => {
-            if (audioPlayer.duration) {
-                seekBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                currentTimeText.textContent = formatTime(audioPlayer.currentTime);
-                totalDurationText.textContent = formatTime(audioPlayer.duration);
+            function closeModal(modal) {
+                if (modal) modal.classList.add('hidden');
             }
-        });
 
-        btnPlayPause.addEventListener('click', togglePlay);
-        btnRewind.addEventListener('click', rewind);
-        btnForward.addEventListener('click', forward);
+            if (btnOpenPhrase) btnOpenPhrase.addEventListener('click', () => openModal(phraseModal));
+            if (btnClosePhrase) btnClosePhrase.addEventListener('click', () => closeModal(phraseModal));
+            if (btnOpenFlowers) btnOpenFlowers.addEventListener('click', () => {
+                if (bouquetWrapper) bouquetWrapper.classList.remove('bouquet-open');
+                if (tulipMessageBox) tulipMessageBox.classList.add('hidden');
+                if (selectedTulipTitle) selectedTulipTitle.textContent = '';
+                if (selectedTulipText) selectedTulipText.textContent = '';
+                openModal(flowersModal);
+            });
+            if (btnCloseFlowers) btnCloseFlowers.addEventListener('click', () => closeModal(flowersModal));
 
-        // --- LÓGICA DE MODALES ---
-        const phraseModal = document.getElementById('phraseModal');
-        const flowersModal = document.getElementById('flowersModal');
-        const btnOpenPhrase = document.getElementById('btnOpenPhrase');
-        const btnClosePhrase = document.getElementById('btnClosePhrase');
-        const btnOpenFlowers = document.getElementById('btnOpenFlowers');
-        const btnCloseFlowers = document.getElementById('btnCloseFlowers');
+            [phraseModal, flowersModal].forEach(modal => {
+                if (modal) modal.addEventListener('click', (event) => {
+                    if (event.target === modal) closeModal(modal);
+                });
+            });
 
-        const bouquetWrapper = document.getElementById('bouquetWrapper');
-        const tulipMessageBox = document.getElementById('tulipMessageBox');
-        const selectedTulipTitle = document.getElementById('selectedTulipTitle');
-        const selectedTulipText = document.getElementById('selectedTulipText');
+            document.querySelectorAll('.tulip-flower').forEach(tulip => {
+                tulip.addEventListener('click', () => {
+                    const title = tulip.getAttribute('data-title') || '';
+                    const text = tulip.getAttribute('data-text') || '';
+                    if (bouquetWrapper) bouquetWrapper.classList.add('bouquet-open');
+                    if (selectedTulipTitle) selectedTulipTitle.textContent = title;
+                    if (selectedTulipText) selectedTulipText.textContent = text;
+                    if (tulipMessageBox) tulipMessageBox.classList.remove('hidden');
+                    refreshIcons();
+                });
+            });
 
-        function openPhraseModal() {
-            phraseModal.classList.remove('hidden');
-            refreshIcons();
-        }
-
-        function closePhraseModal() {
-            phraseModal.classList.add('hidden');
-        }
-
-        function openFlowersModal() {
-            flowersModal.classList.remove('hidden');
-            bouquetWrapper.classList.remove('bouquet-open');
-            tulipMessageBox.classList.add('hidden');
-            selectedTulipTitle.textContent = '';
-            selectedTulipText.textContent = '';
-            refreshIcons();
-        }
-
-        function closeFlowersModal() {
-            flowersModal.classList.add('hidden');
-        }
-
-        btnOpenPhrase.addEventListener('click', openPhraseModal);
-        btnClosePhrase.addEventListener('click', closePhraseModal);
-        btnOpenFlowers.addEventListener('click', openFlowersModal);
-        btnCloseFlowers.addEventListener('click', closeFlowersModal);
-
-        // Cerrar al hacer clic en el backdrop
-        phraseModal.addEventListener('click', (e) => {
-            if (e.target === phraseModal) closePhraseModal();
-        });
-
-        flowersModal.addEventListener('click', (e) => {
-            if (e.target === flowersModal) closeFlowersModal();
-        });
-
-        // Clic en los tulipanes
-        const tulips = document.querySelectorAll('.tulip-flower');
-        tulips.forEach(tulip => {
-            tulip.addEventListener('click', () => {
-                const title = tulip.getAttribute('data-title');
-                const text = tulip.getAttribute('data-text');
-
-                bouquetWrapper.classList.add('bouquet-open');
-                selectedTulipTitle.textContent = title;
-                selectedTulipText.textContent = text;
-                tulipMessageBox.classList.remove('hidden');
-                refreshIcons();
+            // Escape cierra cualquier modal abierto.
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal(phraseModal);
+                    closeModal(flowersModal);
+                }
             });
         });
     </script>
